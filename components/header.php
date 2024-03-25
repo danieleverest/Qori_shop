@@ -2,7 +2,7 @@
 <nav class="navbar navbar-expand-lg navbar-light shadow" style="background-color: #000;">
     <div class="container d-flex justify-content-between align-items-center">
 
-        <a class="navbar-brand text-white logo h1 align-self-center" href="./" 
+        <a class="navbar-brand text-white logo h1 align-self-center" href="./"
             style="font-weight: 100; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;">
             Q o r i
         </a>
@@ -35,7 +35,17 @@
                         <a class="nav-link" href="contact.php">Negocios</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="admin/admin.php">Admin</a>
+                        <!-- <a class="nav-link" href="admin/register.php">Admin</a> -->
+                        <?php
+                        // Check if the user is logged out (not authenticated)
+                        if (!isset ($_SESSION['user_id'])) {
+                            // If logged out, go to admin/register.php
+                            echo '<a class="nav-link" href="admin/login.php">Admin</a>';
+                        } else {
+                            // If logged in, go to admin/admin.php
+                            echo '<a class="nav-link" href="admin/admin.php">Admin</a>';
+                        }
+                        ?>
                     </li>
                 </ul>
             </div>
