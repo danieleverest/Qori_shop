@@ -35,8 +35,8 @@ include "../config/db.php";
                             <!-- <input type="number" class="form-control" id="techproduct_name" required min="1"> -->
                         </div>
                         <div class="mb-3">
-                            <label for="category" class="col-form-label">Category:</label>
-                            <select class="form-select" id="category1" name="category1" aria-label="Category1" required>
+                            <label for="techcategory" class="col-form-label">Category:</label>
+                            <select class="form-select" id="techcategory1" name="techcategory1" aria-label="Category1" required>
                                 <?php
                                 $sql = "SELECT * FROM techcategories";
                                 $result = mysqli_query($conn, $sql) or die ('Database query error!');
@@ -47,20 +47,20 @@ include "../config/db.php";
                                 if (mysqli_num_rows($result) > 0) {
                                     // Loop through the techcategories and group them by parent ID
                                     while ($row = mysqli_fetch_assoc($result)) {
-                                        $category_id = $row['id'];
-                                        $category = $row['category'];
+                                        $techcategory_id = $row['id'];
+                                        $techcategory = $row['techcategory'];
                                         $parentId = $row['parentId'];
 
-                                        // If parentId is 0, it's a parent category
+                                        // If parentId is 0, it's a parent techcategory
                                         if ($parentId == 0) {
-                                            // Add the parent category to the techcategoriesByParent array
-                                            $techcategoriesByParent[$category_id]['name'] = $category;
+                                            // Add the parent techcategory to the techcategoriesByParent array
+                                            $techcategoriesByParent[$techcategory_id]['name'] = $techcategory;
                                         } else {
-                                            // If parentId is not 0, it's a child category
-                                            // Check if the parent category exists in techcategoriesByParent array
+                                            // If parentId is not 0, it's a child techcategory
+                                            // Check if the parent techcategory exists in techcategoriesByParent array
                                             if (isset ($techcategoriesByParent[$parentId])) {
-                                                // Add the child category to the parent category's children array
-                                                $techcategoriesByParent[$parentId]['children'][] = array('id' => $category_id, 'name' => $category);
+                                                // Add the child techcategory to the parent techcategory's children array
+                                                $techcategoriesByParent[$parentId]['children'][] = array('id' => $techcategory_id, 'name' => $techcategory);
                                             }
                                         }
                                     }
@@ -68,7 +68,7 @@ include "../config/db.php";
                                     // Loop through the grouped techcategories and output optgroup labels and options
                                     foreach ($techcategoriesByParent as $parentCategoryId => $parentCategory) {
                                         $parentCategoryName = $parentCategory['name'];
-                                        // Output the optgroup label for parent category
+                                        // Output the optgroup label for parent techcategory
                                         echo "<optgroup label='{$parentCategoryName}'>";
 
                                         // Output the options within the optgroup
@@ -128,8 +128,8 @@ include "../config/db.php";
                             </div>
                         </div>
                         <div class="mb-3">
-                            <label for="edit_techproduct_category" class="col-form-label">Category:</label>
-                            <select class="form-select" id="edit-techproduct-category" name="edit_techproduct_category" aria-label="Category1" required>
+                            <label for="edit_techproduct_techcategory" class="col-form-label">Category:</label>
+                            <select class="form-select" id="edit-techproduct-techcategory" name="edit_techproduct_techcategory" aria-label="Category1" required>
                                 <?php
                                 $sql = "SELECT * FROM techcategories";
                                 $result = mysqli_query($conn, $sql) or die ('Database query error!');
@@ -140,20 +140,20 @@ include "../config/db.php";
                                 if (mysqli_num_rows($result) > 0) {
                                     // Loop through the techcategories and group them by parent ID
                                     while ($row = mysqli_fetch_assoc($result)) {
-                                        $category_id = $row['id'];
-                                        $category = $row['category'];
+                                        $techcategory_id = $row['id'];
+                                        $techcategory = $row['techcategory'];
                                         $parentId = $row['parentId'];
 
-                                        // If parentId is 0, it's a parent category
+                                        // If parentId is 0, it's a parent techcategory
                                         if ($parentId == 0) {
-                                            // Add the parent category to the techcategoriesByParent array
-                                            $techcategoriesByParent[$category_id]['name'] = $category;
+                                            // Add the parent techcategory to the techcategoriesByParent array
+                                            $techcategoriesByParent[$techcategory_id]['name'] = $techcategory;
                                         } else {
-                                            // If parentId is not 0, it's a child category
-                                            // Check if the parent category exists in techcategoriesByParent array
+                                            // If parentId is not 0, it's a child techcategory
+                                            // Check if the parent techcategory exists in techcategoriesByParent array
                                             if (isset ($techcategoriesByParent[$parentId])) {
-                                                // Add the child category to the parent category's children array
-                                                $techcategoriesByParent[$parentId]['children'][] = array('id' => $category_id, 'name' => $category);
+                                                // Add the child techcategory to the parent techcategory's children array
+                                                $techcategoriesByParent[$parentId]['children'][] = array('id' => $techcategory_id, 'name' => $techcategory);
                                             }
                                         }
                                     }
@@ -161,7 +161,7 @@ include "../config/db.php";
                                     // Loop through the grouped techcategories and output optgroup labels and options
                                     foreach ($techcategoriesByParent as $parentCategoryId => $parentCategory) {
                                         $parentCategoryName = $parentCategory['name'];
-                                        // Output the optgroup label for parent category
+                                        // Output the optgroup label for parent techcategory
                                         echo "<optgroup label='{$parentCategoryName}'>";
 
                                         // Output the options within the optgroup
@@ -320,13 +320,13 @@ include "../config/db.php";
                                                             while ($row = mysqli_fetch_assoc($result)) {
                                                                 $techproduct = $row['techproduct_name'];
                                                                 $price = $row['price'];
-                                                                $category_id = $row['category_id'];
+                                                                $techcategory_id = $row['techcategory_id'];
                                                                 $description = $row['description'];
                                                                 $techproduct_image = $row['image'];
                                                                 $techproduct_id = $row['id'];
-                                                                $category_query = mysqli_query($conn, "SELECT * FROM techcategories WHERE id = $category_id");
-                                                                $category_row = mysqli_fetch_assoc($category_query);
-                                                                $category = $category_row['category']; // Retrieve the category name from the parent category query result
+                                                                $techcategory_query = mysqli_query($conn, "SELECT * FROM techcategories WHERE id = $techcategory_id");
+                                                                $techcategory_row = mysqli_fetch_assoc($techcategory_query);
+                                                                $techcategory = $techcategory_row['techcategory']; // Retrieve the techcategory name from the parent techcategory query result
                                                                 echo "
                                                                 <tr>
                                                                     
@@ -350,7 +350,7 @@ include "../config/db.php";
                                                                     </td>
                                                                     <td>
                                                                         <div class='media-body'>
-                                                                            <span class='mb-0 text-sm'>$category</span>
+                                                                            <span class='mb-0 text-sm'>$techcategory</span>
                                                                         </div>
                                                                     </td>
                                                                     <td>
@@ -361,7 +361,7 @@ include "../config/db.php";
                                                                     <td>
                                                                         <a class='btn btn-sm btn-icon-only text-primary edit-techproduct' href='#' role='button' 
                                                                         data-bs-toggle='modal' data-bs-target='#editTechproduct'
-                                                                        data-bs-whatever='@mdo' data-techproduct-id='{$techproduct_id}' edit-techproduct-image='{$techproduct_image}' edit-techproduct-name='{$techproduct}' edit-techproduct-price='{$price}' edit-techproduct-category='{$category_id}' edit-techproduct-description='{$description}'>
+                                                                        data-bs-whatever='@mdo' data-techproduct-id='{$techproduct_id}' edit-techproduct-image='{$techproduct_image}' edit-techproduct-name='{$techproduct}' edit-techproduct-price='{$price}' edit-techproduct-techcategory='{$techcategory_id}' edit-techproduct-description='{$description}'>
                                                                             <i class='fas fa-edit'></i>
                                                                         </a>
                                                                         <a class='btn btn-sm btn-icon-only text-danger delete-techproduct' href='#' role='button' data-techproduct-id='{$techproduct_id}'>
@@ -428,25 +428,25 @@ include "../config/db.php";
             editButtons.forEach(function (button) {
                 button.addEventListener('click', function (event) {
                     event.preventDefault();
-                    var categoryId = button.getAttribute('data-techproduct-id');
+                    var techcategoryId = button.getAttribute('data-techproduct-id');
                     var techproductname = button.getAttribute('edit-techproduct-name');
                     var techproductimage = button.getAttribute('edit-techproduct-image');
                     var techproductprice = button.getAttribute('edit-techproduct-price');
-                    var techproductcategory = button.getAttribute('edit-techproduct-category');
+                    var techproducttechcategory = button.getAttribute('edit-techproduct-techcategory');
                     var techproductdescription = button.getAttribute('edit-techproduct-description');
 
-                    document.getElementById('edit_techproduct_id').value = categoryId;
+                    document.getElementById('edit_techproduct_id').value = techcategoryId;
                     document.getElementById('edit-techproduct-name').value = techproductname;
                     document.getElementById('edit-techproduct-image').setAttribute('src', 'uploads/' + techproductimage);
                     // document.getElementById('edit-techproduct-imageval').value = techproductimage;
                     document.getElementById('edit-techproduct-price').value = techproductprice;
-                    document.getElementById('edit-techproduct-category').value = techproductcategory;
+                    document.getElementById('edit-techproduct-techcategory').value = techproducttechcategory;
                     document.getElementById('edit-techproduct-description').value = techproductdescription;
                     // var editTechproductImageVal = document.getElementById('edit-techproduct-imageval');
                     // if (editTechproductImageVal) {
                     //     editTechproductImageVal.value = techproductimage;
                     // }
-                    console.log(categoryId + techproductcategory);
+                    console.log(techcategoryId + techproducttechcategory);
                 });
             });
 
@@ -456,16 +456,16 @@ include "../config/db.php";
             deleteButtons.forEach(function (button) {
                 button.addEventListener('click', function (event) {
                     event.preventDefault();
-                    var categoryId = button.getAttribute('data-techproduct-id');
-                    if (confirm("Are you sure you want to delete this category?")) {
-                        deleteCategory(categoryId);
+                    var techcategoryId = button.getAttribute('data-techproduct-id');
+                    if (confirm("Are you sure you want to delete this techcategory?")) {
+                        deleteCategory(techcategoryId);
                     }
 
                 });
             });
 
-            function deleteCategory(categoryId) {
-                // Send an AJAX request to delete-techproduct.php with the category ID
+            function deleteCategory(techcategoryId) {
+                // Send an AJAX request to delete-techproduct.php with the techcategory ID
                 var xhr = new XMLHttpRequest();
                 xhr.onreadystatechange = function () {
                     if (xhr.readyState === XMLHttpRequest.DONE) {
@@ -476,13 +476,13 @@ include "../config/db.php";
                             location.href = "techproducts.php?successMessage=" + $successMessage;
                         } else {
                             // If there's an error, display an error message
-                            console.error('Error deleting category: ' + xhr.status);
+                            console.error('Error deleting techcategory: ' + xhr.status);
                         }
                     }
                 };
                 xhr.open('POST', 'delete-techproduct.php', true);
                 xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-                xhr.send('category_id=' + categoryId);
+                xhr.send('techcategory_id=' + techcategoryId);
             }
         });
     </script>

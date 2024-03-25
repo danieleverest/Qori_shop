@@ -21,38 +21,38 @@ include "config/db.php";
                 <h1 class="h2 pb-4">Categorias</h1>
                 <ul class="list-unstyled templatemo-accordion">
                     <?php
-                    // Fetch shopcategories from the database
-                    $sql = "SELECT * FROM shopcategories WHERE parentId = 0";
+                    // Fetch techcategories from the database
+                    $sql = "SELECT * FROM techcategories WHERE parentId = 0";
                     $result = mysqli_query($conn, $sql);
 
                     if (mysqli_num_rows($result) > 0) {
-                        // Loop through the parent shopcategories
+                        // Loop through the parent techcategories
                         while ($row = mysqli_fetch_assoc($result)) {
                             $parentCategoryId = $row['id'];
-                            $parentCategoryName = $row['shopcategory'];
+                            $parentCategoryName = $row['techcategory'];
 
-                            // Output the parent shopcategory
+                            // Output the parent techcategory
                             echo '<li class="pb-3">';
-                            echo '<a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="?shopcategory_id=' . $parentCategoryId . '">';
+                            echo '<a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="?techcategory_id=' . $parentCategoryId . '">';
                             echo $parentCategoryName;
                             echo '<i class="fa fa-fw fa-chevron-circle-down mt-1"></i>';
                             echo '</a>';
 
-                            // Fetch child shopcategories
-                            $childSql = "SELECT * FROM shopcategories WHERE parentId = $parentCategoryId";
+                            // Fetch child techcategories
+                            $childSql = "SELECT * FROM techcategories WHERE parentId = $parentCategoryId";
                             $childResult = mysqli_query($conn, $childSql);
 
                             if (mysqli_num_rows($childResult) > 0) {
                                 echo '<ul class="collapse list-unstyled pl-3'; // Add show class here
                                 // if ($_GET['parent_id'] == $parentCategoryId) {
-                                //     echo ' d-block'; // Add show class if the shopcategory is active
+                                //     echo ' d-block'; // Add show class if the techcategory is active
                                 // }
                                 echo '">';
 
                                 while ($childRow = mysqli_fetch_assoc($childResult)) {
-                                    $childCategoryName = $childRow['shopcategory'];
-                                    // Output the child shopcategory with a link
-                                    echo '<li><a class="text-decoration-none" href="?shopcategory_id=' . $childRow['id'] . '">' . $childCategoryName . '</a></li>';
+                                    $childCategoryName = $childRow['techcategory'];
+                                    // Output the child techcategory with a link
+                                    echo '<li><a class="text-decoration-none" href="?techcategory_id=' . $childRow['id'] . '">' . $childCategoryName . '</a></li>';
                                 }
                                 echo '</ul>';
                             }
@@ -66,15 +66,15 @@ include "config/db.php";
             <div class="col-lg-9">
                 <div class="row">
                     <div class="col-md-6">
-                        <ul class="list-inline shop-top-menu pb-3 pt-1">
+                        <ul class="list-inline tech-top-menu pb-3 pt-1">
                             <li class="list-inline-item">
-                                <a class="h3 text-dark text-decoration-none mr-3" href="shop.php">Todo</a>
+                                <a class="h3 text-dark text-decoration-none mr-3" href="tecnologia.php">Todo</a>
                             </li>
                             <li class="list-inline-item">
-                                <a class="h3 text-dark text-decoration-none mr-3" href="#">Hombres</a>
+                                <a class="h3 text-dark text-decoration-none mr-3" href="#">Ofertas</a>
                             </li>
                             <li class="list-inline-item">
-                                <a class="h3 text-dark text-decoration-none" href="#">Mujeres</a>
+                                <a class="h3 text-dark text-decoration-none" href="#">Destacados</a>
                             </li>
                         </ul>
                     </div>
@@ -91,25 +91,25 @@ include "config/db.php";
                 </div>
                 <div id="product-container" class="row">
                     <?php
-                    // Fetch shopproducts based on the current page and shopcategory
-                    $shopcategoryFilter = isset ($_GET['shopcategory_id']) ? "AND shopcategory_id = {$_GET['shopcategory_id']}" : "";
-                    $totalProductsSql = "SELECT COUNT(*) AS total FROM shopproducts WHERE 1 $shopcategoryFilter";
+                    // Fetch techproducts based on the current page and techcategory
+                    $techcategoryFilter = isset ($_GET['techcategory_id']) ? "AND techcategory_id = {$_GET['techcategory_id']}" : "";
+                    $totalProductsSql = "SELECT COUNT(*) AS total FROM techproducts WHERE 1 $techcategoryFilter";
                     $page = isset ($_GET['page']) ? intval($_GET['page']) : 1;
                     $totalProductsResult = mysqli_query($conn, $totalProductsSql);
                     $totalProductsRow = mysqli_fetch_assoc($totalProductsResult);
-                    $limit = 9; // Number of shopproducts per page
+                    $limit = 9; // Number of techproducts per page
                     $totalProducts = $totalProductsRow['total'];
                     $totalPages = ceil($totalProducts / $limit);
                     $offset = ($page - 1) * $limit; // Offset for pagination
                     
                     $sort = isset ($_GET['sort']) ? $_GET['sort'] : '';
-                    $productSql = "SELECT * FROM shopproducts WHERE 1 $shopcategoryFilter";
+                    $productSql = "SELECT * FROM techproducts WHERE 1 $techcategoryFilter";
 
                     // Apply sorting
                     if (!empty ($sort)) {
                         switch ($sort) {
                             case 'name_asc':
-                                $productSql .= " ORDER BY shopproduct_name ASC";
+                                $productSql .= " ORDER BY techproduct_name ASC";
                                 break;
                             case 'price_asc':
                                 $productSql .= " ORDER BY price ASC";
@@ -122,10 +122,10 @@ include "config/db.php";
 
                     $productSql .= " LIMIT $limit OFFSET $offset";
 
-                    
+
 
                     $productResult = mysqli_query($conn, $productSql);
-                    // Display shopproducts
+                    // Display techproducts
                     if (mysqli_num_rows($productResult) > 0) {
                         while ($productRow = mysqli_fetch_assoc($productResult)) {
                             // Output product HTML
@@ -140,18 +140,18 @@ include "config/db.php";
                                         <div
                                             class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
                                             <ul class="list-unstyled">
-                                                <li><a class="btn btn-success text-white" href="shop-single.php"><i
+                                                <li><a class="btn btn-success text-white" href="tech-single.php"><i
                                                             class="far fa-heart"></i></a></li>
-                                                <li><a class="btn btn-success text-white mt-2" href="shop-single.php"><i
+                                                <li><a class="btn btn-success text-white mt-2" href="tech-single.php"><i
                                                             class="far fa-eye"></i></a></li>
-                                                <li><a class="btn btn-success text-white mt-2" href="shop-single.php"><i
+                                                <li><a class="btn btn-success text-white mt-2" href="tech-single.php"><i
                                                             class="fas fa-cart-plus"></i></a></li>
                                             </ul>
                                         </div>
                                     </div>
                                     <div class="card-body" style="height: 140px">
-                                        <a href="shop-single.php" class="h3 text-decoration-none">
-                                            <?php echo $productRow['shopproduct_name']; ?>
+                                        <a href="tech-single.php" class="h3 text-decoration-none">
+                                            <?php echo $productRow['techproduct_name']; ?>
                                         </a>
                                         <ul class="w-100 list-unstyled d-flex justify-content-between mb-0">
                                             <li>M/L/X/XL</li>
@@ -186,7 +186,7 @@ include "config/db.php";
                             <?php
                         }
                     } else {
-                        echo "<p>No shopproducts found.</p>";
+                        echo "<p>No techproducts found.</p>";
                     }
                     ?>
                     <!-- End Products -->
@@ -201,7 +201,7 @@ include "config/db.php";
                             <?php if ($page > 1): ?>
                                 <li class="page-item">
                                     <a class="page-link"
-                                        href="?page=<?php echo $page - 1 . (isset ($_GET['shopcategory_id']) ? '&shopcategory_id=' . $_GET['shopcategory_id'] : ''); ?>"
+                                        href="?page=<?php echo $page - 1 . (isset ($_GET['techcategory_id']) ? '&techcategory_id=' . $_GET['techcategory_id'] : ''); ?>"
                                         tabindex="-1" aria-disabled="true"><i class="fas fa-angle-left"></i><span
                                             class="sr-only">Previous</span></a>
                                 </li>
@@ -209,7 +209,7 @@ include "config/db.php";
                             <?php for ($i = 1; $i <= $totalPages; $i++): ?>
                                 <li class="page-item <?php echo $i == $page ? 'active' : ''; ?>">
                                     <a class="page-link"
-                                        href="?page=<?php echo $i . (isset ($_GET['shopcategory_id']) ? '&shopcategory_id=' . $_GET['shopcategory_id'] : ''); ?>">
+                                        href="?page=<?php echo $i . (isset ($_GET['techcategory_id']) ? '&techcategory_id=' . $_GET['techcategory_id'] : ''); ?>">
                                         <?php echo $i; ?>
                                     </a>
                                 </li>
@@ -217,7 +217,7 @@ include "config/db.php";
                             <?php if ($page < $totalPages): ?>
                                 <li class="page-item">
                                     <a class="page-link"
-                                        href="?page=<?php echo $page + 1 . (isset ($_GET['shopcategory_id']) ? '&shopcategory_id=' . $_GET['shopcategory_id'] : ''); ?>"><i
+                                        href="?page=<?php echo $page + 1 . (isset ($_GET['techcategory_id']) ? '&techcategory_id=' . $_GET['techcategory_id'] : ''); ?>"><i
                                             class="fas fa-angle-right"></i><span class="sr-only">Next</span></a>
                                 </li>
                             <?php endif; ?>

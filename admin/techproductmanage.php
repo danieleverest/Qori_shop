@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Retrieve form data
         $techproductName = $_POST['techproduct_name'];
         $price = $_POST['price'];
-        $categoryID = $_POST['category1'];
+        $techcategoryID = $_POST['techcategory1'];
         $description = $_POST['description'];
 
         if ($_FILES["image"]["error"] === UPLOAD_ERR_OK) {
@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     // File upload successful, now insert techproduct data into the database
 
                     // Prepare the SQL statement
-                    $sql = "INSERT INTO techproducts (techproduct_name, price, category_id, description, image) VALUES ('$techproductName', $price, $categoryID, '$description', '$imageName')";
+                    $sql = "INSERT INTO techproducts (techproduct_name, price, techcategory_id, description, image) VALUES ('$techproductName', $price, $techcategoryID, '$description', '$imageName')";
 
                     // Execute the SQL statement
                     if (mysqli_query($conn, $sql)) {
@@ -62,16 +62,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     if (isset ($_POST["edittechproduct"])) {
-        $category_id = $_POST["edit_techproduct_id"];
+        $techcategory_id = $_POST["edit_techproduct_id"];
         $edit_techproduct_name = $_POST["edit_techproduct_name"];
         $edit_techproduct_price = $_POST["edit_techproduct_price"];
-        $edit_techproduct_category = $_POST["edit_techproduct_category"];
+        $edit_techproduct_techcategory = $_POST["edit_techproduct_techcategory"];
         $edit_techproduct_description = $_POST["edit_techproduct_description"];
 
         // Check if a new image has been uploaded
         if ($_FILES["editimage"]["error"] === UPLOAD_ERR_OK) {
             // Retrieve the old image name
-            $old_image_sql = "SELECT image FROM techproducts WHERE id = '$category_id'";
+            $old_image_sql = "SELECT image FROM techproducts WHERE id = '$techcategory_id'";
             $old_image_result = mysqli_query($conn, $old_image_sql);
             $old_image_row = mysqli_fetch_assoc($old_image_result);
             $old_image = $old_image_row['image'];
@@ -84,7 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $uploadDirectory = "uploads/";
             if (move_uploaded_file($_FILES["editimage"]["tmp_name"], $uploadDirectory . $new_image_name)) {
                 // Update the techproduct data with the new image
-                $sql = "UPDATE techproducts SET techproduct_name = '$edit_techproduct_name', price = '$edit_techproduct_price', category_id = '$edit_techproduct_category', description = '$edit_techproduct_description', image = '$new_image_name' WHERE id = '$category_id'";
+                $sql = "UPDATE techproducts SET techproduct_name = '$edit_techproduct_name', price = '$edit_techproduct_price', techcategory_id = '$edit_techproduct_techcategory', description = '$edit_techproduct_description', image = '$new_image_name' WHERE id = '$techcategory_id'";
             } else {
                 // Error moving uploaded file
                 $errorMessage = "Error uploading new image.";
@@ -93,7 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }
         } else {
             // No new image uploaded, update techproduct data without changing the image
-            $sql = "UPDATE techproducts SET techproduct_name = '$edit_techproduct_name', price = '$edit_techproduct_price', category_id = '$edit_techproduct_category', description = '$edit_techproduct_description' WHERE id = '$category_id'";
+            $sql = "UPDATE techproducts SET techproduct_name = '$edit_techproduct_name', price = '$edit_techproduct_price', techcategory_id = '$edit_techproduct_techcategory', description = '$edit_techproduct_description' WHERE id = '$techcategory_id'";
         }
 
         // Execute the SQL statement
