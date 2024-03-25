@@ -116,14 +116,14 @@ include "../config/db.php";
                         </li>
                         <hr />
                         <li class="ms-5">
+                            <a href="products.php" class="nav-link px-2 text-truncate"><i class="bi bi-bricks fs-5"></i>
+                                <span class="d-none d-sm-inline text-secondary">Products</span> </a>
+                        </li>
+                        <li class="ms-5">
                             <a href="category.php" class="nav-link px-2 text-truncate">
                                 <i class="bi bi-speedometer fs-5"></i>
                                 <span class="d-none d-sm-inline text-secondary">Catetory</span>
                             </a>
-                        </li>
-                        <li class="ms-5">
-                            <a href="products.php" class="nav-link px-2 text-truncate"><i class="bi bi-bricks fs-5"></i>
-                                <span class="d-none d-sm-inline text-secondary">Products</span> </a>
                         </li>
                         <!-- <li class="ms-5">
                             <a href="#" class="nav-link px-2 text-truncate"><i class="bi bi-people fs-5"></i>

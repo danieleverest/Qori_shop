@@ -20,7 +20,7 @@
                         class="rounded-circle">
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="dropdownUser2" style="">
-                    <li><a class="dropdown-item" href="admin.php">Admin</a></li>
+                    <li><a class="dropdown-item" href="products.php">Admin</a></li>
                     <li>
                         <hr class="dropdown-divider">
                     </li>

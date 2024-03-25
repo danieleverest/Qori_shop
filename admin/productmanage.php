@@ -61,58 +61,52 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
 
-    if (isset ($_POST["newcategory2"])) {
-        $category1 = $_POST["category1"];
-        $category2 = $_POST["category2"];
+    if (isset ($_POST["editproduct"])) {
+        $category_id = $_POST["edit_product_id"];
+        $edit_product_name = $_POST["edit_product_name"];
+        $edit_product_price = $_POST["edit_product_price"];
+        $edit_product_category = $_POST["edit_product_category"];
+        $edit_product_description = $_POST["edit_product_description"];
 
-        $check_sql = "SELECT * FROM categories WHERE category = '$category2' AND parentId = $category1";
-        $check_result = mysqli_query($conn, $check_sql);
+        // Check if a new image has been uploaded
+        if ($_FILES["editimage"]["error"] === UPLOAD_ERR_OK) {
+            // Retrieve the old image name
+            $old_image_sql = "SELECT image FROM products WHERE id = '$category_id'";
+            $old_image_result = mysqli_query($conn, $old_image_sql);
+            $old_image_row = mysqli_fetch_assoc($old_image_result);
+            $old_image = $old_image_row['image'];
 
-        if (mysqli_num_rows($check_result) > 0) {
-            $errorMessage = "Category already exists!";
-            header("location: category.php?errorMessage=" . urlencode($errorMessage));
-        } else {
-            // Insert the category into the database
-            $sql = "INSERT INTO categories (category, parentId) VALUES ('$category2', '$category1')";
-            $result = mysqli_query($conn, $sql);
+            // Delete the old image
+            unlink("uploads/$old_image");
 
-            if (!$result) {
-                die ("Invalid query : " . mysqli_error($conn));
-            }
-
-            $successMessage = "Successfully Added!";
-            header("location: category.php?successMessage=" . urlencode($successMessage));
-            exit;
-        }
-    }
-
-    if (isset ($_POST["editcategory"])) {
-        $category_id = $_POST["edit_category_id"];
-        $category = $_POST["edit_category"];
-
-        $check_sql = "SELECT * FROM categories WHERE category = '$category'";
-        $check_result = mysqli_query($conn, $check_sql);
-
-        if (mysqli_num_rows($check_result) > 0) {
-            // $errorMessage = "Category already exists!";
-            $errorMessage = mysqli_num_rows($check_result);
-            header("location: category.php?errorMessage=" . urlencode($errorMessage));
-        } else {
-            // Insert the category into the database
-            $sql = "UPDATE categories SET category = '$category' WHERE id = '$category_id'";
-            $result = mysqli_query($conn, $sql);
-            // echo "SQL Query: " . $sql . "<br>";
-            if (!$result) {
-                $errorMessage = "Error updating category: " . mysqli_error($conn);
-                header("location: category.php?errorMessage=" . urlencode($errorMessage));
+            // Upload the new image
+            $new_image_name = uniqid("product_image_") . "." . pathinfo($_FILES["editimage"]["name"], PATHINFO_EXTENSION);
+            $uploadDirectory = "uploads/";
+            if (move_uploaded_file($_FILES["editimage"]["tmp_name"], $uploadDirectory . $new_image_name)) {
+                // Update the product data with the new image
+                $sql = "UPDATE products SET product_name = '$edit_product_name', price = '$edit_product_price', category_id = '$edit_product_category', description = '$edit_product_description', image = '$new_image_name' WHERE id = '$category_id'";
+            } else {
+                // Error moving uploaded file
+                $errorMessage = "Error uploading new image.";
+                header("location: products.php?errorMessage=" . urlencode($errorMessage));
                 exit;
             }
+        } else {
+            // No new image uploaded, update product data without changing the image
+            $sql = "UPDATE products SET product_name = '$edit_product_name', price = '$edit_product_price', category_id = '$edit_product_category', description = '$edit_product_description' WHERE id = '$category_id'";
+        }
 
-            // $successMessage = "SQL Query: " . $sql . "<br>";
-            $successMessage = "Successfully Updated!";
-            header("location: category.php?successMessage=" . urlencode($successMessage));
+        // Execute the SQL statement
+        $result = mysqli_query($conn, $sql);
+        if (!$result) {
+            $errorMessage = "Error updating product: " . mysqli_error($conn);
+            header("location: products.php?errorMessage=" . urlencode($errorMessage));
             exit;
         }
+
+        $successMessage = "Product updated successfully!";
+        header("location: products.php?successMessage=" . urlencode($successMessage));
+        exit;
     }
 } else {
     echo "ELse";
