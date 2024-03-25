@@ -162,18 +162,23 @@ include "../config/db.php";
                     if (isset ($_GET['errorMessage'])) {
                         $errorMessage = $_GET['errorMessage'];
                         echo "
-                            <div id='errorMessageContainer' class='offset-sm-3 col-sm-6'>
-                                <div class='alert alert-danger alert-dismissible fade show' role='alert'>
-                                    <strong>$errorMessage</strong>
-                                    <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
-                                </div>
+                        <div id='errorMessageContainer' class='offset-sm-3 col-sm-6'>
+                            <div class='alert alert-danger alert-dismissible fade show' role='alert'>
+                                <strong>$errorMessage</strong>
+                                <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
                             </div>
-                            <script>
-                                // Automatically hide the error message after 5 seconds
-                                setTimeout(function() {
-                                    document.getElementById('errorMessageContainer').style.display = 'none';
-                                }, 5000);
-                            </script>";
+                        </div>
+                        <script>
+                            setTimeout(function() {
+                                document.getElementById('errorMessageContainer').style.display = 'none';
+                                // Remove the errorMessageContainer parameter from the URL
+                                var url = window.location.href;
+                                if (url.includes('?errorMessageContainer=')) {
+                                    var newUrl = url.split('?')[0];
+                                    window.history.replaceState({}, document.title, newUrl);
+                                }
+                            }, 5000);
+                        </script>";
                     }
                     ?>
                     <div class="main-content row">
