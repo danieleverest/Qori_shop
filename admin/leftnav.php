@@ -9,13 +9,23 @@
             </li>
             <hr />
             <li class="ms-5">
-                <a href="products.php" class="nav-link px-2 text-truncate"><i class="bi bi-bricks fs-5"></i>
-                    <span class="d-none d-sm-inline text-secondary">Products</span> </a>
+                <a href="shopproducts.php" class="nav-link px-2 text-truncate"><i class="bi bi-bricks fs-5"></i>
+                    <span class="d-none d-sm-inline text-secondary">Shop Products</span> </a>
             </li>
             <li class="ms-5">
-                <a href="category.php" class="nav-link px-2 text-truncate">
+                <a href="techproducts.php" class="nav-link px-2 text-truncate"><i class="bi bi-bricks fs-5"></i>
+                    <span class="d-none d-sm-inline text-secondary">Technology Products</span> </a>
+            </li>
+            <li class="ms-5">
+                <a href="shopcategory.php" class="nav-link px-2 text-truncate">
                     <i class="bi bi-speedometer fs-5"></i>
-                    <span class="d-none d-sm-inline text-secondary">Catetory</span>
+                    <span class="d-none d-sm-inline text-secondary">Shop Catetory</span>
+                </a>
+            </li>
+            <li class="ms-5">
+                <a href="techcategory.php" class="nav-link px-2 text-truncate">
+                    <i class="bi bi-speedometer fs-5"></i>
+                    <span class="d-none d-sm-inline text-secondary">Technology Catetory</span>
                 </a>
             </li>
             <!-- <li class="ms-5">

@@ -21,38 +21,38 @@ include "config/db.php";
                 <h1 class="h2 pb-4">Categorias</h1>
                 <ul class="list-unstyled templatemo-accordion">
                     <?php
-                    // Fetch categories from the database
-                    $sql = "SELECT * FROM categories WHERE parentId = 0";
+                    // Fetch shopcategories from the database
+                    $sql = "SELECT * FROM shopcategories WHERE parentId = 0";
                     $result = mysqli_query($conn, $sql);
 
                     if (mysqli_num_rows($result) > 0) {
-                        // Loop through the parent categories
+                        // Loop through the parent shopcategories
                         while ($row = mysqli_fetch_assoc($result)) {
                             $parentCategoryId = $row['id'];
-                            $parentCategoryName = $row['category'];
+                            $parentCategoryName = $row['shopcategory'];
 
-                            // Output the parent category
+                            // Output the parent shopcategory
                             echo '<li class="pb-3">';
-                            echo '<a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="?category_id=' . $parentCategoryId . '">';
+                            echo '<a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="?shopcategory_id=' . $parentCategoryId . '">';
                             echo $parentCategoryName;
                             echo '<i class="fa fa-fw fa-chevron-circle-down mt-1"></i>';
                             echo '</a>';
 
-                            // Fetch child categories
-                            $childSql = "SELECT * FROM categories WHERE parentId = $parentCategoryId";
+                            // Fetch child shopcategories
+                            $childSql = "SELECT * FROM shopcategories WHERE parentId = $parentCategoryId";
                             $childResult = mysqli_query($conn, $childSql);
 
                             if (mysqli_num_rows($childResult) > 0) {
                                 echo '<ul class="collapse list-unstyled pl-3'; // Add show class here
                                 // if ($_GET['parent_id'] == $parentCategoryId) {
-                                //     echo ' d-block'; // Add show class if the category is active
+                                //     echo ' d-block'; // Add show class if the shopcategory is active
                                 // }
                                 echo '">';
 
                                 while ($childRow = mysqli_fetch_assoc($childResult)) {
-                                    $childCategoryName = $childRow['category'];
-                                    // Output the child category with a link
-                                    echo '<li><a class="text-decoration-none" href="?category_id=' . $childRow['id'] . '">' . $childCategoryName . '</a></li>';
+                                    $childCategoryName = $childRow['shopcategory'];
+                                    // Output the child shopcategory with a link
+                                    echo '<li><a class="text-decoration-none" href="?shopcategory_id=' . $childRow['id'] . '">' . $childCategoryName . '</a></li>';
                                 }
                                 echo '</ul>';
                             }
@@ -91,25 +91,25 @@ include "config/db.php";
                 </div>
                 <div id="product-container" class="row">
                     <?php
-                    // Fetch products based on the current page and category
-                    $categoryFilter = isset ($_GET['category_id']) ? "AND category_id = {$_GET['category_id']}" : "";
-                    $totalProductsSql = "SELECT COUNT(*) AS total FROM products WHERE 1 $categoryFilter";
+                    // Fetch shopproducts based on the current page and shopcategory
+                    $shopcategoryFilter = isset ($_GET['shopcategory_id']) ? "AND shopcategory_id = {$_GET['shopcategory_id']}" : "";
+                    $totalProductsSql = "SELECT COUNT(*) AS total FROM shopproducts WHERE 1 $shopcategoryFilter";
                     $page = isset ($_GET['page']) ? intval($_GET['page']) : 1;
                     $totalProductsResult = mysqli_query($conn, $totalProductsSql);
                     $totalProductsRow = mysqli_fetch_assoc($totalProductsResult);
-                    $limit = 3; // Number of products per page
+                    $limit = 9; // Number of shopproducts per page
                     $totalProducts = $totalProductsRow['total'];
                     $totalPages = ceil($totalProducts / $limit);
                     $offset = ($page - 1) * $limit; // Offset for pagination
                     
                     $sort = isset ($_GET['sort']) ? $_GET['sort'] : '';
-                    $productSql = "SELECT * FROM products WHERE 1 $categoryFilter";
+                    $productSql = "SELECT * FROM shopproducts WHERE 1 $shopcategoryFilter";
 
                     // Apply sorting
                     if (!empty ($sort)) {
                         switch ($sort) {
                             case 'name_asc':
-                                $productSql .= " ORDER BY product_name ASC";
+                                $productSql .= " ORDER BY shopproduct_name ASC";
                                 break;
                             case 'price_asc':
                                 $productSql .= " ORDER BY price ASC";
@@ -125,7 +125,7 @@ include "config/db.php";
                     
 
                     $productResult = mysqli_query($conn, $productSql);
-                    // Display products
+                    // Display shopproducts
                     if (mysqli_num_rows($productResult) > 0) {
                         while ($productRow = mysqli_fetch_assoc($productResult)) {
                             // Output product HTML
@@ -151,7 +151,7 @@ include "config/db.php";
                                     </div>
                                     <div class="card-body" style="height: 140px">
                                         <a href="shop-single.php" class="h3 text-decoration-none">
-                                            <?php echo $productRow['product_name']; ?>
+                                            <?php echo $productRow['shopproduct_name']; ?>
                                         </a>
                                         <ul class="w-100 list-unstyled d-flex justify-content-between mb-0">
                                             <li>M/L/X/XL</li>
@@ -186,7 +186,7 @@ include "config/db.php";
                             <?php
                         }
                     } else {
-                        echo "<p>No products found.</p>";
+                        echo "<p>No shopproducts found.</p>";
                     }
                     ?>
                     <!-- End Products -->
@@ -201,7 +201,7 @@ include "config/db.php";
                             <?php if ($page > 1): ?>
                                 <li class="page-item">
                                     <a class="page-link"
-                                        href="?page=<?php echo $page - 1 . (isset ($_GET['category_id']) ? '&category_id=' . $_GET['category_id'] : ''); ?>"
+                                        href="?page=<?php echo $page - 1 . (isset ($_GET['shopcategory_id']) ? '&shopcategory_id=' . $_GET['shopcategory_id'] : ''); ?>"
                                         tabindex="-1" aria-disabled="true"><i class="fas fa-angle-left"></i><span
                                             class="sr-only">Previous</span></a>
                                 </li>
@@ -209,7 +209,7 @@ include "config/db.php";
                             <?php for ($i = 1; $i <= $totalPages; $i++): ?>
                                 <li class="page-item <?php echo $i == $page ? 'active' : ''; ?>">
                                     <a class="page-link"
-                                        href="?page=<?php echo $i . (isset ($_GET['category_id']) ? '&category_id=' . $_GET['category_id'] : ''); ?>">
+                                        href="?page=<?php echo $i . (isset ($_GET['shopcategory_id']) ? '&shopcategory_id=' . $_GET['shopcategory_id'] : ''); ?>">
                                         <?php echo $i; ?>
                                     </a>
                                 </li>
@@ -217,7 +217,7 @@ include "config/db.php";
                             <?php if ($page < $totalPages): ?>
                                 <li class="page-item">
                                     <a class="page-link"
-                                        href="?page=<?php echo $page + 1 . (isset ($_GET['category_id']) ? '&category_id=' . $_GET['category_id'] : ''); ?>"><i
+                                        href="?page=<?php echo $page + 1 . (isset ($_GET['shopcategory_id']) ? '&shopcategory_id=' . $_GET['shopcategory_id'] : ''); ?>"><i
                                             class="fas fa-angle-right"></i><span class="sr-only">Next</span></a>
                                 </li>
                             <?php endif; ?>

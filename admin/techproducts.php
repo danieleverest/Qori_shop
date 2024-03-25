@@ -1,5 +1,5 @@
 <?php
-$pageTitle = "Zay Shop - Product Listing Page";
+$pageTitle = "Zay Tech - Techproduct Listing Page";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -19,11 +19,11 @@ include "../config/db.php";
                     <h5 class="modal-title" id="exampleModalLabel">Add New Item</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="shopproductmanage.php" method="post" enctype="multipart/form-data" class="border-secondary">
+                <form action="techproductmanage.php" method="post" enctype="multipart/form-data" class="border-secondary">
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label for="product_name" class="col-form-label">Product Name:</label>
-                            <input type="text" class="form-control" id="product_name" name="product_name" required>
+                            <label for="techproduct_name" class="col-form-label">Techproduct Name:</label>
+                            <input type="text" class="form-control" id="techproduct_name" name="techproduct_name" required>
                         </div>
                         <div class="mb-3">
                             <label for="price" class="col-form-label">Price:</label>
@@ -32,20 +32,20 @@ include "../config/db.php";
                                 <input name="price" type="number" id="price" class="form-control"
                                     aria-label="Amount (to the nearest dollar)" required>
                             </div>
-                            <!-- <input type="number" class="form-control" id="product_name" required min="1"> -->
+                            <!-- <input type="number" class="form-control" id="techproduct_name" required min="1"> -->
                         </div>
                         <div class="mb-3">
                             <label for="category" class="col-form-label">Category:</label>
                             <select class="form-select" id="category1" name="category1" aria-label="Category1" required>
                                 <?php
-                                $sql = "SELECT * FROM categories";
+                                $sql = "SELECT * FROM techcategories";
                                 $result = mysqli_query($conn, $sql) or die ('Database query error!');
 
-                                // Initialize an array to hold categories grouped by parent IDs
-                                $categoriesByParent = array();
+                                // Initialize an array to hold techcategories grouped by parent IDs
+                                $techcategoriesByParent = array();
 
                                 if (mysqli_num_rows($result) > 0) {
-                                    // Loop through the categories and group them by parent ID
+                                    // Loop through the techcategories and group them by parent ID
                                     while ($row = mysqli_fetch_assoc($result)) {
                                         $category_id = $row['id'];
                                         $category = $row['category'];
@@ -53,20 +53,20 @@ include "../config/db.php";
 
                                         // If parentId is 0, it's a parent category
                                         if ($parentId == 0) {
-                                            // Add the parent category to the categoriesByParent array
-                                            $categoriesByParent[$category_id]['name'] = $category;
+                                            // Add the parent category to the techcategoriesByParent array
+                                            $techcategoriesByParent[$category_id]['name'] = $category;
                                         } else {
                                             // If parentId is not 0, it's a child category
-                                            // Check if the parent category exists in categoriesByParent array
-                                            if (isset ($categoriesByParent[$parentId])) {
+                                            // Check if the parent category exists in techcategoriesByParent array
+                                            if (isset ($techcategoriesByParent[$parentId])) {
                                                 // Add the child category to the parent category's children array
-                                                $categoriesByParent[$parentId]['children'][] = array('id' => $category_id, 'name' => $category);
+                                                $techcategoriesByParent[$parentId]['children'][] = array('id' => $category_id, 'name' => $category);
                                             }
                                         }
                                     }
 
-                                    // Loop through the grouped categories and output optgroup labels and options
-                                    foreach ($categoriesByParent as $parentCategoryId => $parentCategory) {
+                                    // Loop through the grouped techcategories and output optgroup labels and options
+                                    foreach ($techcategoriesByParent as $parentCategoryId => $parentCategory) {
                                         $parentCategoryName = $parentCategory['name'];
                                         // Output the optgroup label for parent category
                                         echo "<optgroup label='{$parentCategoryName}'>";
@@ -97,48 +97,48 @@ include "../config/db.php";
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <input class="btn btn-secondary btn-success" type="submit" name="addproduct"
-                            value="Add New Product">
+                        <input class="btn btn-secondary btn-success" type="submit" name="addtechproduct"
+                            value="Add New Techproduct">
                         <!-- <button type="button" class="btn btn-primary">Send message</button> -->
                     </div>
                 </form>
             </div>
         </div>
     </div>
-    <div class="modal fade" id="editProduct" tabindex="-1" aria-labelledby="editProductLabel" aria-hidden="true">
+    <div class="modal fade" id="editTechproduct" tabindex="-1" aria-labelledby="editTechproductLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editProductLabel">Edit Product</h5>
+                    <h5 class="modal-title" id="editTechproductLabel">Edit Techproduct</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="shopproductmanage.php" method="post" enctype="multipart/form-data" class="border-secondary">
+                <form action="techproductmanage.php" method="post" enctype="multipart/form-data" class="border-secondary">
                     <div class="modal-body">
-                        <input type="hidden" id="edit_product_id" name="edit_product_id">
+                        <input type="hidden" id="edit_techproduct_id" name="edit_techproduct_id">
                         <div class="mb-3">
-                            <label for="edit_product_name" class="col-form-label">Product Name:</label>
-                            <input type="text" class="form-control" id="edit-product-name" name="edit_product_name" required>
+                            <label for="edit_techproduct_name" class="col-form-label">Techproduct Name:</label>
+                            <input type="text" class="form-control" id="edit-techproduct-name" name="edit_techproduct_name" required>
                         </div>
                         <div class="mb-3">
-                            <label for="edit_product_price" class="col-form-label">Price:</label>
+                            <label for="edit_techproduct_price" class="col-form-label">Price:</label>
                             <div class="input-group mb-3">
                                 <span class="input-group-text">$</span>
-                                <input name="edit_product_price" type="number" id="edit-product-price" class="form-control"
+                                <input name="edit_techproduct_price" type="number" id="edit-techproduct-price" class="form-control"
                                     aria-label="Amount (to the nearest dollar)" required>
                             </div>
                         </div>
                         <div class="mb-3">
-                            <label for="edit_product_category" class="col-form-label">Category:</label>
-                            <select class="form-select" id="edit-product-category" name="edit_product_category" aria-label="Category1" required>
+                            <label for="edit_techproduct_category" class="col-form-label">Category:</label>
+                            <select class="form-select" id="edit-techproduct-category" name="edit_techproduct_category" aria-label="Category1" required>
                                 <?php
-                                $sql = "SELECT * FROM categories";
+                                $sql = "SELECT * FROM techcategories";
                                 $result = mysqli_query($conn, $sql) or die ('Database query error!');
 
-                                // Initialize an array to hold categories grouped by parent IDs
-                                $categoriesByParent = array();
+                                // Initialize an array to hold techcategories grouped by parent IDs
+                                $techcategoriesByParent = array();
 
                                 if (mysqli_num_rows($result) > 0) {
-                                    // Loop through the categories and group them by parent ID
+                                    // Loop through the techcategories and group them by parent ID
                                     while ($row = mysqli_fetch_assoc($result)) {
                                         $category_id = $row['id'];
                                         $category = $row['category'];
@@ -146,20 +146,20 @@ include "../config/db.php";
 
                                         // If parentId is 0, it's a parent category
                                         if ($parentId == 0) {
-                                            // Add the parent category to the categoriesByParent array
-                                            $categoriesByParent[$category_id]['name'] = $category;
+                                            // Add the parent category to the techcategoriesByParent array
+                                            $techcategoriesByParent[$category_id]['name'] = $category;
                                         } else {
                                             // If parentId is not 0, it's a child category
-                                            // Check if the parent category exists in categoriesByParent array
-                                            if (isset ($categoriesByParent[$parentId])) {
+                                            // Check if the parent category exists in techcategoriesByParent array
+                                            if (isset ($techcategoriesByParent[$parentId])) {
                                                 // Add the child category to the parent category's children array
-                                                $categoriesByParent[$parentId]['children'][] = array('id' => $category_id, 'name' => $category);
+                                                $techcategoriesByParent[$parentId]['children'][] = array('id' => $category_id, 'name' => $category);
                                             }
                                         }
                                     }
 
-                                    // Loop through the grouped categories and output optgroup labels and options
-                                    foreach ($categoriesByParent as $parentCategoryId => $parentCategory) {
+                                    // Loop through the grouped techcategories and output optgroup labels and options
+                                    foreach ($techcategoriesByParent as $parentCategoryId => $parentCategory) {
                                         $parentCategoryName = $parentCategory['name'];
                                         // Output the optgroup label for parent category
                                         echo "<optgroup label='{$parentCategoryName}'>";
@@ -180,27 +180,27 @@ include "../config/db.php";
                         </div>
 
                         <div class="mb-3">
-                            <label for="edit_product_description" class="col-form-label">Description:</label>
-                            <textarea class="form-control" name="edit_product_description" id="edit-product-description"></textarea>
+                            <label for="edit_techproduct_description" class="col-form-label">Description:</label>
+                            <textarea class="form-control" name="edit_techproduct_description" id="edit-techproduct-description"></textarea>
                         </div>
                         <div class="mb-3 row">
                             <div class='col-md-4'>
                                 <a href='#' class='imagepreview mr-3'>
-                                    <img alt='Image placeholder' id="edit-product-image"
+                                    <img alt='Image placeholder' id="edit-techproduct-image"
                                         src=''>
                                 </a>
                             </div>
                             <div class="col-md-8">
                                 <label for="editimage">Image:</label>
-                                <input type="file" name="editimage" id="edit-product-imageval" accept="image/*" value="" />
+                                <input type="file" name="editimage" id="edit-techproduct-imageval" accept="image/*" value="" />
 
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <input class="btn btn-secondary btn-success" type="submit" name="editproduct"
-                            value="Edit Product">
+                        <input class="btn btn-secondary btn-success" type="submit" name="edittechproduct"
+                            value="Edit Techproduct">
                         <!-- <button type="button" class="btn btn-primary">Send message</button> -->
                     </div>
                 </form>
@@ -264,7 +264,7 @@ include "../config/db.php";
                     <div class="main-content">
                         <div class="container mt-5">
                             <!-- Table -->
-                            <h2 class="mb-3">Products</h2>
+                            <h2 class="mb-3">Techproducts</h2>
                             <div class="row">
                                 <!-- Dark table -->
                                 <div class="row mt-5">
@@ -303,7 +303,7 @@ include "../config/db.php";
                                                         $start = ($page - 1) * $recordsPerPage;
 
                                                         // Fetch total number of records
-                                                        $totalRecordsQuery = "SELECT COUNT(*) AS total FROM products";
+                                                        $totalRecordsQuery = "SELECT COUNT(*) AS total FROM techproducts";
                                                         $totalRecordsResult = mysqli_query($conn, $totalRecordsQuery);
                                                         $totalRecordsRow = mysqli_fetch_assoc($totalRecordsResult);
                                                         $totalRecords = $totalRecordsRow['total'];
@@ -312,19 +312,19 @@ include "../config/db.php";
                                                         $totalPages = ceil($totalRecords / $recordsPerPage);
 
                                                         // Modify your SQL query to fetch records for the current page
-                                                        $sql = "SELECT * FROM products LIMIT $start, $recordsPerPage";
+                                                        $sql = "SELECT * FROM techproducts LIMIT $start, $recordsPerPage";
                                                         $result = mysqli_query($conn, $sql);
 
                                                         if (mysqli_num_rows($result) > 0) {
-                                                            // Loop through the categories and display them
+                                                            // Loop through the techcategories and display them
                                                             while ($row = mysqli_fetch_assoc($result)) {
-                                                                $product = $row['product_name'];
+                                                                $techproduct = $row['techproduct_name'];
                                                                 $price = $row['price'];
                                                                 $category_id = $row['category_id'];
                                                                 $description = $row['description'];
-                                                                $product_image = $row['image'];
-                                                                $product_id = $row['id'];
-                                                                $category_query = mysqli_query($conn, "SELECT * FROM categories WHERE id = $category_id");
+                                                                $techproduct_image = $row['image'];
+                                                                $techproduct_id = $row['id'];
+                                                                $category_query = mysqli_query($conn, "SELECT * FROM techcategories WHERE id = $category_id");
                                                                 $category_row = mysqli_fetch_assoc($category_query);
                                                                 $category = $category_row['category']; // Retrieve the category name from the parent category query result
                                                                 echo "
@@ -334,13 +334,13 @@ include "../config/db.php";
                                                                         <div class='media align-items-center'>
                                                                             <a href='#' class='avatar rounded-circle mr-3'>
                                                                                 <img alt='Image placeholder'
-                                                                                    src='uploads/$product_image'>
+                                                                                    src='uploads/$techproduct_image'>
                                                                             </a>
                                                                         </div>
                                                                     </th>
                                                                     <td>
                                                                         <div class='media-body'>
-                                                                            <span class='mb-0 text-sm'>$product</span>
+                                                                            <span class='mb-0 text-sm'>$techproduct</span>
                                                                         </div>
                                                                     </td>
                                                                     <td>
@@ -359,22 +359,22 @@ include "../config/db.php";
                                                                         </div>
                                                                     </td>
                                                                     <td>
-                                                                        <a class='btn btn-sm btn-icon-only text-primary edit-product' href='#' role='button' 
-                                                                        data-bs-toggle='modal' data-bs-target='#editProduct'
-                                                                        data-bs-whatever='@mdo' data-product-id='{$product_id}' edit-product-image='{$product_image}' edit-product-name='{$product}' edit-product-price='{$price}' edit-product-category='{$category_id}' edit-product-description='{$description}'>
+                                                                        <a class='btn btn-sm btn-icon-only text-primary edit-techproduct' href='#' role='button' 
+                                                                        data-bs-toggle='modal' data-bs-target='#editTechproduct'
+                                                                        data-bs-whatever='@mdo' data-techproduct-id='{$techproduct_id}' edit-techproduct-image='{$techproduct_image}' edit-techproduct-name='{$techproduct}' edit-techproduct-price='{$price}' edit-techproduct-category='{$category_id}' edit-techproduct-description='{$description}'>
                                                                             <i class='fas fa-edit'></i>
                                                                         </a>
-                                                                        <a class='btn btn-sm btn-icon-only text-danger delete-product' href='#' role='button' data-product-id='{$product_id}'>
+                                                                        <a class='btn btn-sm btn-icon-only text-danger delete-techproduct' href='#' role='button' data-techproduct-id='{$techproduct_id}'>
                                                                             <i class='fas fa-trash-alt'></i>
                                                                         </a>
                                                                     </td>
                                                                 </tr>";
                                                             }
                                                         } else {
-                                                            echo "<tr><td colspan='2'>No categories found.</td></tr>";
+                                                            echo "<tr><td colspan='2'>No techcategories found.</td></tr>";
                                                         }
                                                         // Close the database connection
-                                                        mysqli_close($conn);
+                                                        // mysqli_close($conn);
                                                         ?>
                                                     </tbody>
                                                 </table>
@@ -423,40 +423,40 @@ include "../config/db.php";
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            // Edit Product
-            var editButtons = document.querySelectorAll('.edit-product');
+            // Edit Techproduct
+            var editButtons = document.querySelectorAll('.edit-techproduct');
             editButtons.forEach(function (button) {
                 button.addEventListener('click', function (event) {
                     event.preventDefault();
-                    var categoryId = button.getAttribute('data-product-id');
-                    var productname = button.getAttribute('edit-product-name');
-                    var productimage = button.getAttribute('edit-product-image');
-                    var productprice = button.getAttribute('edit-product-price');
-                    var productcategory = button.getAttribute('edit-product-category');
-                    var productdescription = button.getAttribute('edit-product-description');
+                    var categoryId = button.getAttribute('data-techproduct-id');
+                    var techproductname = button.getAttribute('edit-techproduct-name');
+                    var techproductimage = button.getAttribute('edit-techproduct-image');
+                    var techproductprice = button.getAttribute('edit-techproduct-price');
+                    var techproductcategory = button.getAttribute('edit-techproduct-category');
+                    var techproductdescription = button.getAttribute('edit-techproduct-description');
 
-                    document.getElementById('edit_product_id').value = categoryId;
-                    document.getElementById('edit-product-name').value = productname;
-                    document.getElementById('edit-product-image').setAttribute('src', 'uploads/' + productimage);
-                    // document.getElementById('edit-product-imageval').value = productimage;
-                    document.getElementById('edit-product-price').value = productprice;
-                    document.getElementById('edit-product-category').value = productcategory;
-                    document.getElementById('edit-product-description').value = productdescription;
-                    // var editProductImageVal = document.getElementById('edit-product-imageval');
-                    // if (editProductImageVal) {
-                    //     editProductImageVal.value = productimage;
+                    document.getElementById('edit_techproduct_id').value = categoryId;
+                    document.getElementById('edit-techproduct-name').value = techproductname;
+                    document.getElementById('edit-techproduct-image').setAttribute('src', 'uploads/' + techproductimage);
+                    // document.getElementById('edit-techproduct-imageval').value = techproductimage;
+                    document.getElementById('edit-techproduct-price').value = techproductprice;
+                    document.getElementById('edit-techproduct-category').value = techproductcategory;
+                    document.getElementById('edit-techproduct-description').value = techproductdescription;
+                    // var editTechproductImageVal = document.getElementById('edit-techproduct-imageval');
+                    // if (editTechproductImageVal) {
+                    //     editTechproductImageVal.value = techproductimage;
                     // }
-                    console.log(categoryId + productcategory);
+                    console.log(categoryId + techproductcategory);
                 });
             });
 
-            // Delete Product
-            var deleteButtons = document.querySelectorAll('.delete-product');
+            // Delete Techproduct
+            var deleteButtons = document.querySelectorAll('.delete-techproduct');
 
             deleteButtons.forEach(function (button) {
                 button.addEventListener('click', function (event) {
                     event.preventDefault();
-                    var categoryId = button.getAttribute('data-product-id');
+                    var categoryId = button.getAttribute('data-techproduct-id');
                     if (confirm("Are you sure you want to delete this category?")) {
                         deleteCategory(categoryId);
                     }
@@ -465,7 +465,7 @@ include "../config/db.php";
             });
 
             function deleteCategory(categoryId) {
-                // Send an AJAX request to delete-product.php with the category ID
+                // Send an AJAX request to delete-techproduct.php with the category ID
                 var xhr = new XMLHttpRequest();
                 xhr.onreadystatechange = function () {
                     if (xhr.readyState === XMLHttpRequest.DONE) {
@@ -473,14 +473,14 @@ include "../config/db.php";
                             // If deletion is successful, reload the page
                             // location.reload();
                             $successMessage = "Successfully Deleted!";
-                            location.href = "products.php?successMessage=" + $successMessage;
+                            location.href = "techproducts.php?successMessage=" + $successMessage;
                         } else {
                             // If there's an error, display an error message
                             console.error('Error deleting category: ' + xhr.status);
                         }
                     }
                 };
-                xhr.open('POST', 'delete-product.php', true);
+                xhr.open('POST', 'delete-techproduct.php', true);
                 xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
                 xhr.send('category_id=' + categoryId);
             }

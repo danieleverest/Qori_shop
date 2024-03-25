@@ -1,5 +1,5 @@
 <?php
-$pageTitle = "Zay Shop - Category Manage Page";
+$pageTitle = "Zay Shop - Shopcategory Manage Page";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -12,89 +12,89 @@ include "../config/db.php";
 
     <?php include './header.php'; ?>
 
-    <div class="modal fade" id="addNewItem1" tabindex="-1" aria-labelledby="addcategory1modal" aria-hidden="true">
+    <div class="modal fade" id="addNewItem1" tabindex="-1" aria-labelledby="addshopcategory1modal" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="addcategory1modal">Add New Item</h5>
+                    <h5 class="modal-title" id="addshopcategory1modal">Add New Item</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="categorymanage.php" method="post" enctype="multipart/form-data" class="border-secondary">
+                <form action="shopcategorymanage.php" method="post" enctype="multipart/form-data" class="border-secondary">
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label for="category" class="col-form-label">Category:</label>
-                            <input type="text" class="form-control" id="category" name="category" required>
+                            <label for="shopcategory" class="col-form-label">Shopcategory:</label>
+                            <input type="text" class="form-control" id="shopcategory" name="shopcategory" required>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <input class="btn btn-secondary btn-success" type="submit" name="newcategory1"
+                        <input class="btn btn-secondary btn-success" type="submit" name="newshopcategory1"
                             value="Add New Item">
                     </div>
                 </form>
             </div>
         </div>
     </div>
-    <div class="modal fade" id="addNewItem2" tabindex="-1" aria-labelledby="addcategory2modal" aria-hidden="true">
+    <div class="modal fade" id="addNewItem2" tabindex="-1" aria-labelledby="addshopcategory2modal" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="addcategory2modal">Add New Item</h5>
+                    <h5 class="modal-title" id="addshopcategory2modal">Add New Item</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="categorymanage.php" method="post" enctype="multipart/form-data" class="border-secondary">
+                <form action="shopcategorymanage.php" method="post" enctype="multipart/form-data" class="border-secondary">
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label for="category1" class="col-form-label">Category1:</label>
-                            <select class="form-select" id="category1" name="category1" aria-label="Category1" required>
+                            <label for="shopcategory1" class="col-form-label">Shopcategory1:</label>
+                            <select class="form-select" id="shopcategory1" name="shopcategory1" aria-label="Shopcategory1" required>
                                 <?php
-                                // Fetch categories from the database
-                                $sql = "SELECT * FROM categories WHERE parentId = 0";
+                                // Fetch shopcategories from the database
+                                $sql = "SELECT * FROM shopcategories WHERE parentId = 0";
                                 $result = mysqli_query($conn, $sql) or die ('Database query error!');
 
                                 if (mysqli_num_rows($result) > 0) {
-                                    // Loop through the categories and display them
+                                    // Loop through the shopcategories and display them
                                     while ($row = mysqli_fetch_assoc($result)) {
-                                        $category = $row['category'];
-                                        $category_id = $row['id'];
-                                        echo "<option value='{$category_id}'>$category</option>";
+                                        $shopcategory = $row['shopcategory'];
+                                        $shopcategory_id = $row['id'];
+                                        echo "<option value='{$shopcategory_id}'>$shopcategory</option>";
                                     }
                                 } else {
-                                    echo "<tr><td colspan='2'>No categories found.</td></tr>";
+                                    echo "<tr><td colspan='2'>No shopcategories found.</td></tr>";
                                 }
                                 ?>
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="category2" class="col-form-label">Category2:</label>
-                            <input type="text" class="form-control" id="category2" name="category2" required>
+                            <label for="shopcategory2" class="col-form-label">Shopcategory2:</label>
+                            <input type="text" class="form-control" id="shopcategory2" name="shopcategory2" required>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <input class="btn btn-secondary btn-success" type="submit" name="newcategory2"
+                        <input class="btn btn-secondary btn-success" type="submit" name="newshopcategory2"
                             value="Add New Item">
                     </div>
                 </form>
             </div>
         </div>
     </div>
-    <div class="modal fade" id="editItem" tabindex="-1" aria-labelledby="editcategory" aria-hidden="true">
+    <div class="modal fade" id="editItem" tabindex="-1" aria-labelledby="editshopcategory" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editcategory">Edit Item</h5>
+                    <h5 class="modal-title" id="editshopcategory">Edit Item</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form id="editCategoryForm" action="categorymanage.php" method="post" enctype="multipart/form-data"
+                <form id="editShopcategoryForm" action="shopcategorymanage.php" method="post" enctype="multipart/form-data"
                     class="border-secondary">
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label for="edit_category" class="col-form-label">Category:</label>
-                            <input type="text" class="form-control" id="edit_category" name="edit_category" required>
-                            <input type="hidden" id="edit_category_id" name="edit_category_id">
+                            <label for="edit_shopcategory" class="col-form-label">Shopcategory:</label>
+                            <input type="text" class="form-control" id="edit_shopcategory" name="edit_shopcategory" required>
+                            <input type="hidden" id="edit_shopcategory_id" name="edit_shopcategory_id">
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <input class="btn btn-secondary btn-success" type="submit" name="editcategory"
+                        <input class="btn btn-secondary btn-success" type="submit" name="editshopcategory"
                             value="Edit Item">
                     </div>
                 </form>
@@ -160,7 +160,7 @@ include "../config/db.php";
                     <div class="main-content row">
                         <div class="mt-5 col-md-6">
                             <!-- Table -->
-                            <h2 class="mb-3">Category1</h2>
+                            <h2 class="mb-3">Shopcategory1</h2>
                             <div class="row">
                                 <!-- Dark table -->
                                 <div class="row mt-5">
@@ -168,7 +168,7 @@ include "../config/db.php";
                                         <div class="card bg-default shadow">
                                             <div class="card-header bg-transparent border-0">
                                                 <div class="row justify-content-between">
-                                                    <h3 class="text-white mb-0 col-md-9">Category1 tables</h3>
+                                                    <h3 class="text-white mb-0 col-md-9">Shopcategory1 tables</h3>
                                                     <button type="button" class="btn btn-outline-info col-md-3"
                                                         data-bs-toggle="modal" data-bs-target="#addNewItem1"
                                                         data-bs-whatever="@mdo"><i class="fa fa-plus"></i>Add New
@@ -186,36 +186,36 @@ include "../config/db.php";
                                                     </thead>
                                                     <tbody>
                                                         <?php
-                                                        // Fetch categories from the database
-                                                        $sql = "SELECT * FROM categories WHERE parentId = 0";
+                                                        // Fetch shopcategories from the database
+                                                        $sql = "SELECT * FROM shopcategories WHERE parentId = 0";
                                                         $result = mysqli_query($conn, $sql);
 
                                                         if (mysqli_num_rows($result) > 0) {
-                                                            // Loop through the categories and display them
+                                                            // Loop through the shopcategories and display them
                                                             while ($row = mysqli_fetch_assoc($result)) {
-                                                                $category = $row['category'];
-                                                                $category_id = $row['id'];
+                                                                $shopcategory = $row['shopcategory'];
+                                                                $shopcategory_id = $row['id'];
                                                                 echo "
                                                                 <tr>
                                                                     <td>
                                                                         <div class='media-body'>
-                                                                            <span class='mb-0 text-sm' edit-category-id='{$category_id}'>$category</span>
+                                                                            <span class='mb-0 text-sm' edit-shopcategory-id='{$shopcategory_id}'>$shopcategory</span>
                                                                         </div>
                                                                     </td>
                                                                     <td>
-                                                                        <a class='btn btn-sm btn-icon-only text-primary edit-category' href='#' role='button' 
+                                                                        <a class='btn btn-sm btn-icon-only text-primary edit-shopcategory' href='#' role='button' 
                                                                         data-bs-toggle='modal' data-bs-target='#editItem'
-                                                                        data-bs-whatever='@mdo' data-category-id='{$category_id}' edit-category='{$category}'>
+                                                                        data-bs-whatever='@mdo' data-shopcategory-id='{$shopcategory_id}' edit-shopcategory='{$shopcategory}'>
                                                                             <i class='fas fa-edit'></i>
                                                                         </a>
-                                                                        <a class='btn btn-sm btn-icon-only text-danger delete-category' href='#' role='button' data-category-id='{$category_id}'>
+                                                                        <a class='btn btn-sm btn-icon-only text-danger delete-shopcategory' href='#' role='button' data-shopcategory-id='{$shopcategory_id}'>
                                                                             <i class='fas fa-trash-alt'></i>
                                                                         </a>
                                                                     </td>
                                                                 </tr>";
                                                             }
                                                         } else {
-                                                            echo "<tr><td colspan='2'>No categories found.</td></tr>";
+                                                            echo "<tr><td colspan='2'>No shopcategories found.</td></tr>";
                                                         }
                                                         ?>
                                                     </tbody>
@@ -228,7 +228,7 @@ include "../config/db.php";
                         </div>
                         <div class="mt-5 col-md-6">
                             <!-- Table -->
-                            <h2 class="mb-3">Category2</h2>
+                            <h2 class="mb-3">Shopcategory2</h2>
                             <div class="row">
                                 <!-- Dark table -->
                                 <div class="row mt-5">
@@ -236,7 +236,7 @@ include "../config/db.php";
                                         <div class="card bg-default shadow">
                                             <div class="card-header bg-transparent border-0">
                                                 <div class="row justify-content-between">
-                                                    <h3 class="text-white mb-0 col-md-9">Category2 tables</h3>
+                                                    <h3 class="text-white mb-0 col-md-9">Shopcategory2 tables</h3>
                                                     <button type="button" class="btn btn-outline-info col-md-3"
                                                         data-bs-toggle="modal" data-bs-target="#addNewItem2"
                                                         data-bs-whatever="@mdo"><i class="fa fa-plus"></i>Add New
@@ -249,57 +249,57 @@ include "../config/db.php";
                                                     <thead class="thead-dark">
                                                         <tr>
                                                             <th scope="col">Name</th>
-                                                            <th scope="col">Category1</th>
+                                                            <th scope="col">Shopcategory1</th>
                                                             <th scope="col text-md-end">Actions</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         <?php
-                                                        // Fetch categories from the database
-                                                        $sql = "SELECT * FROM categories WHERE parentId != 0";
+                                                        // Fetch shopcategories from the database
+                                                        $sql = "SELECT * FROM shopcategories WHERE parentId != 0";
 
                                                         $result = mysqli_query($conn, $sql);
 
                                                         if (mysqli_num_rows($result) > 0) {
-                                                            // Loop through the categories and display them
+                                                            // Loop through the shopcategories and display them
                                                             while ($row = mysqli_fetch_assoc($result)) {
-                                                                $category = $row['category'];
-                                                                $category_parentId = $row['parentId'];
-                                                                $category1_query = mysqli_query($conn, "SELECT * FROM categories WHERE id = $category_parentId");
-                                                                if ($category1_query) {
-                                                                    $category1_row = mysqli_fetch_assoc($category1_query);
-                                                                    $category1 = $category1_row['category']; // Retrieve the category name from the parent category query result
-                                                                    $category_id1 = $category1_row['id']; // Retrieve the category name from the parent category query result
+                                                                $shopcategory = $row['shopcategory'];
+                                                                $shopcategory_parentId = $row['parentId'];
+                                                                $shopcategory1_query = mysqli_query($conn, "SELECT * FROM shopcategories WHERE id = $shopcategory_parentId");
+                                                                if ($shopcategory1_query) {
+                                                                    $shopcategory1_row = mysqli_fetch_assoc($shopcategory1_query);
+                                                                    $shopcategory1 = $shopcategory1_row['shopcategory']; // Retrieve the shopcategory name from the parent shopcategory query result
+                                                                    $shopcategory_id1 = $shopcategory1_row['id']; // Retrieve the shopcategory name from the parent shopcategory query result
                                                                 } else {
                                                                     // Handle query error if necessary
                                                                 }
-                                                                $category_id = $row['id'];
+                                                                $shopcategory_id = $row['id'];
                                                                 echo "
                                                                 <tr>
                                                                     <td>
                                                                         <div class='media-body'>
-                                                                            <span class='mb-0 text-sm' edit-category-id2='{$category_id}'>$category</span>
+                                                                            <span class='mb-0 text-sm' edit-shopcategory-id2='{$shopcategory_id}'>$shopcategory</span>
                                                                         </div>
                                                                     </td>
                                                                     <td>
                                                                         <div class='media-body'>
-                                                                            <span class='mb-0 text-sm' edit-category-id1='{$category_id1}'>$category1</span>
+                                                                            <span class='mb-0 text-sm' edit-shopcategory-id1='{$shopcategory_id1}'>$shopcategory1</span>
                                                                         </div>
                                                                     </td>
                                                                     <td>
-                                                                        <a class='btn btn-sm btn-icon-only text-primary edit-category' href='#' role='button' 
+                                                                        <a class='btn btn-sm btn-icon-only text-primary edit-shopcategory' href='#' role='button' 
                                                                         data-bs-toggle='modal' data-bs-target='#editItem'
-                                                                        data-bs-whatever='@mdo' data-category-id='{$category_id}' edit-category='{$category}'>
+                                                                        data-bs-whatever='@mdo' data-shopcategory-id='{$shopcategory_id}' edit-shopcategory='{$shopcategory}'>
                                                                             <i class='fas fa-edit'></i>
                                                                         </a>
-                                                                        <a class='btn btn-sm btn-icon-only text-danger delete-category' href='#' role='button' data-category-id='{$category_id}'>
+                                                                        <a class='btn btn-sm btn-icon-only text-danger delete-shopcategory' href='#' role='button' data-shopcategory-id='{$shopcategory_id}'>
                                                                             <i class='fas fa-trash-alt'></i>
                                                                         </a>
                                                                     </td>
                                                                 </tr>";
                                                             }
                                                         } else {
-                                                            echo "<tr><td colspan='2'>No categories found.</td></tr>";
+                                                            echo "<tr><td colspan='2'>No shopcategories found.</td></tr>";
                                                         }
                                                         ?>
                                                     </tbody>
@@ -320,32 +320,32 @@ include "../config/db.php";
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            var editButtons = document.querySelectorAll('.edit-category');
+            var editButtons = document.querySelectorAll('.edit-shopcategory');
             editButtons.forEach(function (button) {
                 button.addEventListener('click', function (event) {
                     event.preventDefault();
-                    var categoryId = button.getAttribute('data-category-id');
-                    var categoryValue = button.getAttribute('edit-category');
-                    document.getElementById('edit_category_id').value = categoryId;
-                    document.getElementById('edit_category').value = categoryValue;
-                    console.log(categoryId + categoryValue);
+                    var shopcategoryId = button.getAttribute('data-shopcategory-id');
+                    var shopcategoryValue = button.getAttribute('edit-shopcategory');
+                    document.getElementById('edit_shopcategory_id').value = shopcategoryId;
+                    document.getElementById('edit_shopcategory').value = shopcategoryValue;
+                    console.log(shopcategoryId + shopcategoryValue);
                 });
             });
 
-            var deleteButtons = document.querySelectorAll('.delete-category');
+            var deleteButtons = document.querySelectorAll('.delete-shopcategory');
 
             deleteButtons.forEach(function (button) {
                 button.addEventListener('click', function (event) {
                     event.preventDefault();
-                    var categoryId = button.getAttribute('data-category-id');
-                    if (confirm("Are you sure you want to delete this category?")) {
-                        deleteCategory(categoryId);
+                    var shopcategoryId = button.getAttribute('data-shopcategory-id');
+                    if (confirm("Are you sure you want to delete this shopcategory?")) {
+                        deleteShopcategory(shopcategoryId);
                     }
                 });
             });
 
-            function deleteCategory(categoryId) {
-                // Send an AJAX request to delete-category.php with the category ID
+            function deleteShopcategory(shopcategoryId) {
+                // Send an AJAX request to delete-shopcategory.php with the shopcategory ID
                 var xhr = new XMLHttpRequest();
                 xhr.onreadystatechange = function () {
                     if (xhr.readyState === XMLHttpRequest.DONE) {
@@ -353,16 +353,16 @@ include "../config/db.php";
                             // If deletion is successful, reload the page
                             // location.reload();
                             $successMessage = "Successfully Deleted!";
-                            location.href = "category.php?successMessage=" + $successMessage;
+                            location.href = "shopcategory.php?successMessage=" + $successMessage;
                         } else {
                             // If there's an error, display an error message
-                            console.error('Error deleting category: ' + xhr.status);
+                            console.error('Error deleting shopcategory: ' + xhr.status);
                         }
                     }
                 };
-                xhr.open('POST', 'delete-category.php', true);
+                xhr.open('POST', 'delete-shopcategory.php', true);
                 xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-                xhr.send('category_id=' + categoryId);
+                xhr.send('shopcategory_id=' + shopcategoryId);
             }
         });
     </script>

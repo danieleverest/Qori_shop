@@ -1,5 +1,5 @@
 <?php
-$pageTitle = "Zay Shop - Product Listing Page";
+$pageTitle = "Zay Shop - Shopproduct Listing Page";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -19,11 +19,11 @@ include "../config/db.php";
                     <h5 class="modal-title" id="exampleModalLabel">Add New Item</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="productmanage.php" method="post" enctype="multipart/form-data" class="border-secondary">
+                <form action="shopproductmanage.php" method="post" enctype="multipart/form-data" class="border-secondary">
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label for="product_name" class="col-form-label">Product Name:</label>
-                            <input type="text" class="form-control" id="product_name" name="product_name" required>
+                            <label for="shopproduct_name" class="col-form-label">Shopproduct Name:</label>
+                            <input type="text" class="form-control" id="shopproduct_name" name="shopproduct_name" required>
                         </div>
                         <div class="mb-3">
                             <label for="price" class="col-form-label">Price:</label>
@@ -32,43 +32,43 @@ include "../config/db.php";
                                 <input name="price" type="number" id="price" class="form-control"
                                     aria-label="Amount (to the nearest dollar)" required>
                             </div>
-                            <!-- <input type="number" class="form-control" id="product_name" required min="1"> -->
+                            <!-- <input type="number" class="form-control" id="shopproduct_name" required min="1"> -->
                         </div>
                         <div class="mb-3">
-                            <label for="category" class="col-form-label">Category:</label>
-                            <select class="form-select" id="category1" name="category1" aria-label="Category1" required>
+                            <label for="shopcategory" class="col-form-label">Category:</label>
+                            <select class="form-select" id="shopcategory1" name="shopcategory1" aria-label="Category1" required>
                                 <?php
-                                $sql = "SELECT * FROM categories";
+                                $sql = "SELECT * FROM shopcategories";
                                 $result = mysqli_query($conn, $sql) or die ('Database query error!');
 
-                                // Initialize an array to hold categories grouped by parent IDs
-                                $categoriesByParent = array();
+                                // Initialize an array to hold shopcategories grouped by parent IDs
+                                $shopcategoriesByParent = array();
 
                                 if (mysqli_num_rows($result) > 0) {
-                                    // Loop through the categories and group them by parent ID
+                                    // Loop through the shopcategories and group them by parent ID
                                     while ($row = mysqli_fetch_assoc($result)) {
-                                        $category_id = $row['id'];
-                                        $category = $row['category'];
+                                        $shopcategory_id = $row['id'];
+                                        $shopcategory = $row['shopcategory'];
                                         $parentId = $row['parentId'];
 
-                                        // If parentId is 0, it's a parent category
+                                        // If parentId is 0, it's a parent shopcategory
                                         if ($parentId == 0) {
-                                            // Add the parent category to the categoriesByParent array
-                                            $categoriesByParent[$category_id]['name'] = $category;
+                                            // Add the parent shopcategory to the shopcategoriesByParent array
+                                            $shopcategoriesByParent[$shopcategory_id]['name'] = $shopcategory;
                                         } else {
-                                            // If parentId is not 0, it's a child category
-                                            // Check if the parent category exists in categoriesByParent array
-                                            if (isset ($categoriesByParent[$parentId])) {
-                                                // Add the child category to the parent category's children array
-                                                $categoriesByParent[$parentId]['children'][] = array('id' => $category_id, 'name' => $category);
+                                            // If parentId is not 0, it's a child shopcategory
+                                            // Check if the parent shopcategory exists in shopcategoriesByParent array
+                                            if (isset ($shopcategoriesByParent[$parentId])) {
+                                                // Add the child shopcategory to the parent shopcategory's children array
+                                                $shopcategoriesByParent[$parentId]['children'][] = array('id' => $shopcategory_id, 'name' => $shopcategory);
                                             }
                                         }
                                     }
 
-                                    // Loop through the grouped categories and output optgroup labels and options
-                                    foreach ($categoriesByParent as $parentCategoryId => $parentCategory) {
+                                    // Loop through the grouped shopcategories and output optgroup labels and options
+                                    foreach ($shopcategoriesByParent as $parentCategoryId => $parentCategory) {
                                         $parentCategoryName = $parentCategory['name'];
-                                        // Output the optgroup label for parent category
+                                        // Output the optgroup label for parent shopcategory
                                         echo "<optgroup label='{$parentCategoryName}'>";
 
                                         // Output the options within the optgroup
@@ -97,71 +97,71 @@ include "../config/db.php";
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <input class="btn btn-secondary btn-success" type="submit" name="addproduct"
-                            value="Add New Product">
+                        <input class="btn btn-secondary btn-success" type="submit" name="addshopproduct"
+                            value="Add New Shopproduct">
                         <!-- <button type="button" class="btn btn-primary">Send message</button> -->
                     </div>
                 </form>
             </div>
         </div>
     </div>
-    <div class="modal fade" id="editProduct" tabindex="-1" aria-labelledby="editProductLabel" aria-hidden="true">
+    <div class="modal fade" id="editShopproduct" tabindex="-1" aria-labelledby="editShopproductLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editProductLabel">Edit Product</h5>
+                    <h5 class="modal-title" id="editShopproductLabel">Edit Shopproduct</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="productmanage.php" method="post" enctype="multipart/form-data" class="border-secondary">
+                <form action="shopproductmanage.php" method="post" enctype="multipart/form-data" class="border-secondary">
                     <div class="modal-body">
-                        <input type="hidden" id="edit_product_id" name="edit_product_id">
+                        <input type="hidden" id="edit_shopproduct_id" name="edit_shopproduct_id">
                         <div class="mb-3">
-                            <label for="edit_product_name" class="col-form-label">Product Name:</label>
-                            <input type="text" class="form-control" id="edit-product-name" name="edit_product_name" required>
+                            <label for="edit_shopproduct_name" class="col-form-label">Shopproduct Name:</label>
+                            <input type="text" class="form-control" id="edit-shopproduct-name" name="edit_shopproduct_name" required>
                         </div>
                         <div class="mb-3">
-                            <label for="edit_product_price" class="col-form-label">Price:</label>
+                            <label for="edit_shopproduct_price" class="col-form-label">Price:</label>
                             <div class="input-group mb-3">
                                 <span class="input-group-text">$</span>
-                                <input name="edit_product_price" type="number" id="edit-product-price" class="form-control"
+                                <input name="edit_shopproduct_price" type="number" id="edit-shopproduct-price" class="form-control"
                                     aria-label="Amount (to the nearest dollar)" required>
                             </div>
                         </div>
                         <div class="mb-3">
-                            <label for="edit_product_category" class="col-form-label">Category:</label>
-                            <select class="form-select" id="edit-product-category" name="edit_product_category" aria-label="Category1" required>
+                            <label for="edit_shopproduct_shopcategory" class="col-form-label">Category:</label>
+                            <select class="form-select" id="edit-shopproduct-shopcategory" name="edit_shopproduct_shopcategory" aria-label="Category1" required>
                                 <?php
-                                $sql = "SELECT * FROM categories";
+                                $sql = "SELECT * FROM shopcategories";
                                 $result = mysqli_query($conn, $sql) or die ('Database query error!');
 
-                                // Initialize an array to hold categories grouped by parent IDs
-                                $categoriesByParent = array();
+                                // Initialize an array to hold shopcategories grouped by parent IDs
+                                $shopcategoriesByParent = array();
 
                                 if (mysqli_num_rows($result) > 0) {
-                                    // Loop through the categories and group them by parent ID
+                                    // Loop through the shopcategories and group them by parent ID
                                     while ($row = mysqli_fetch_assoc($result)) {
-                                        $category_id = $row['id'];
-                                        $category = $row['category'];
+                                        $shopcategory_id = $row['id'];
+                                        $shopcategory = $row['shopcategory'];
                                         $parentId = $row['parentId'];
 
-                                        // If parentId is 0, it's a parent category
+                                        // If parentId is 0, it's a parent shopcategory
                                         if ($parentId == 0) {
-                                            // Add the parent category to the categoriesByParent array
-                                            $categoriesByParent[$category_id]['name'] = $category;
+                                            // Add the parent shopcategory to the shopcategoriesByParent array
+                                            $shopcategoriesByParent[$shopcategory_id]['name'] = $shopcategory;
                                         } else {
-                                            // If parentId is not 0, it's a child category
-                                            // Check if the parent category exists in categoriesByParent array
-                                            if (isset ($categoriesByParent[$parentId])) {
-                                                // Add the child category to the parent category's children array
-                                                $categoriesByParent[$parentId]['children'][] = array('id' => $category_id, 'name' => $category);
+                                            // If parentId is not 0, it's a child shopcategory
+                                            // Check if the parent shopcategory exists in shopcategoriesByParent array
+                                            if (isset ($shopcategoriesByParent[$parentId])) {
+                                                // Add the child shopcategory to the parent shopcategory's children array
+                                                $shopcategoriesByParent[$parentId]['children'][] = array('id' => $shopcategory_id, 'name' => $shopcategory);
                                             }
                                         }
                                     }
 
-                                    // Loop through the grouped categories and output optgroup labels and options
-                                    foreach ($categoriesByParent as $parentCategoryId => $parentCategory) {
+                                    // Loop through the grouped shopcategories and output optgroup labels and options
+                                    foreach ($shopcategoriesByParent as $parentCategoryId => $parentCategory) {
                                         $parentCategoryName = $parentCategory['name'];
-                                        // Output the optgroup label for parent category
+                                        // Output the optgroup label for parent shopcategory
                                         echo "<optgroup label='{$parentCategoryName}'>";
 
                                         // Output the options within the optgroup
@@ -180,27 +180,27 @@ include "../config/db.php";
                         </div>
 
                         <div class="mb-3">
-                            <label for="edit_product_description" class="col-form-label">Description:</label>
-                            <textarea class="form-control" name="edit_product_description" id="edit-product-description"></textarea>
+                            <label for="edit_shopproduct_description" class="col-form-label">Description:</label>
+                            <textarea class="form-control" name="edit_shopproduct_description" id="edit-shopproduct-description"></textarea>
                         </div>
                         <div class="mb-3 row">
                             <div class='col-md-4'>
                                 <a href='#' class='imagepreview mr-3'>
-                                    <img alt='Image placeholder' id="edit-product-image"
+                                    <img alt='Image placeholder' id="edit-shopproduct-image"
                                         src=''>
                                 </a>
                             </div>
                             <div class="col-md-8">
                                 <label for="editimage">Image:</label>
-                                <input type="file" name="editimage" id="edit-product-imageval" accept="image/*" value="" />
+                                <input type="file" name="editimage" id="edit-shopproduct-imageval" accept="image/*" value="" />
 
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <input class="btn btn-secondary btn-success" type="submit" name="editproduct"
-                            value="Edit Product">
+                        <input class="btn btn-secondary btn-success" type="submit" name="editshopproduct"
+                            value="Edit Shopproduct">
                         <!-- <button type="button" class="btn btn-primary">Send message</button> -->
                     </div>
                 </form>
@@ -264,7 +264,7 @@ include "../config/db.php";
                     <div class="main-content">
                         <div class="container mt-5">
                             <!-- Table -->
-                            <h2 class="mb-3">Products</h2>
+                            <h2 class="mb-3">Shopproducts</h2>
                             <div class="row">
                                 <!-- Dark table -->
                                 <div class="row mt-5">
@@ -303,7 +303,7 @@ include "../config/db.php";
                                                         $start = ($page - 1) * $recordsPerPage;
 
                                                         // Fetch total number of records
-                                                        $totalRecordsQuery = "SELECT COUNT(*) AS total FROM products";
+                                                        $totalRecordsQuery = "SELECT COUNT(*) AS total FROM shopproducts";
                                                         $totalRecordsResult = mysqli_query($conn, $totalRecordsQuery);
                                                         $totalRecordsRow = mysqli_fetch_assoc($totalRecordsResult);
                                                         $totalRecords = $totalRecordsRow['total'];
@@ -312,21 +312,21 @@ include "../config/db.php";
                                                         $totalPages = ceil($totalRecords / $recordsPerPage);
 
                                                         // Modify your SQL query to fetch records for the current page
-                                                        $sql = "SELECT * FROM products LIMIT $start, $recordsPerPage";
+                                                        $sql = "SELECT * FROM shopproducts LIMIT $start, $recordsPerPage";
                                                         $result = mysqli_query($conn, $sql);
 
                                                         if (mysqli_num_rows($result) > 0) {
-                                                            // Loop through the categories and display them
+                                                            // Loop through the shopcategories and display them
                                                             while ($row = mysqli_fetch_assoc($result)) {
-                                                                $product = $row['product_name'];
+                                                                $shopproduct = $row['shopproduct_name'];
                                                                 $price = $row['price'];
-                                                                $category_id = $row['category_id'];
+                                                                $shopcategory_id = $row['shopcategory_id'];
                                                                 $description = $row['description'];
-                                                                $product_image = $row['image'];
-                                                                $product_id = $row['id'];
-                                                                $category_query = mysqli_query($conn, "SELECT * FROM categories WHERE id = $category_id");
-                                                                $category_row = mysqli_fetch_assoc($category_query);
-                                                                $category = $category_row['category']; // Retrieve the category name from the parent category query result
+                                                                $shopproduct_image = $row['image'];
+                                                                $shopproduct_id = $row['id'];
+                                                                $shopcategory_query = mysqli_query($conn, "SELECT * FROM shopcategories WHERE id = $shopcategory_id");
+                                                                $shopcategory_row = mysqli_fetch_assoc($shopcategory_query);
+                                                                $shopcategory = $shopcategory_row['shopcategory']; // Retrieve the shopcategory name from the parent shopcategory query result
                                                                 echo "
                                                                 <tr>
                                                                     
@@ -334,13 +334,13 @@ include "../config/db.php";
                                                                         <div class='media align-items-center'>
                                                                             <a href='#' class='avatar rounded-circle mr-3'>
                                                                                 <img alt='Image placeholder'
-                                                                                    src='uploads/$product_image'>
+                                                                                    src='uploads/$shopproduct_image'>
                                                                             </a>
                                                                         </div>
                                                                     </th>
                                                                     <td>
                                                                         <div class='media-body'>
-                                                                            <span class='mb-0 text-sm'>$product</span>
+                                                                            <span class='mb-0 text-sm'>$shopproduct</span>
                                                                         </div>
                                                                     </td>
                                                                     <td>
@@ -350,7 +350,7 @@ include "../config/db.php";
                                                                     </td>
                                                                     <td>
                                                                         <div class='media-body'>
-                                                                            <span class='mb-0 text-sm'>$category</span>
+                                                                            <span class='mb-0 text-sm'>$shopcategory</span>
                                                                         </div>
                                                                     </td>
                                                                     <td>
@@ -359,19 +359,19 @@ include "../config/db.php";
                                                                         </div>
                                                                     </td>
                                                                     <td>
-                                                                        <a class='btn btn-sm btn-icon-only text-primary edit-product' href='#' role='button' 
-                                                                        data-bs-toggle='modal' data-bs-target='#editProduct'
-                                                                        data-bs-whatever='@mdo' data-product-id='{$product_id}' edit-product-image='{$product_image}' edit-product-name='{$product}' edit-product-price='{$price}' edit-product-category='{$category_id}' edit-product-description='{$description}'>
+                                                                        <a class='btn btn-sm btn-icon-only text-primary edit-shopproduct' href='#' role='button' 
+                                                                        data-bs-toggle='modal' data-bs-target='#editShopproduct'
+                                                                        data-bs-whatever='@mdo' data-shopproduct-id='{$shopproduct_id}' edit-shopproduct-image='{$shopproduct_image}' edit-shopproduct-name='{$shopproduct}' edit-shopproduct-price='{$price}' edit-shopproduct-shopcategory='{$shopcategory_id}' edit-shopproduct-description='{$description}'>
                                                                             <i class='fas fa-edit'></i>
                                                                         </a>
-                                                                        <a class='btn btn-sm btn-icon-only text-danger delete-product' href='#' role='button' data-product-id='{$product_id}'>
+                                                                        <a class='btn btn-sm btn-icon-only text-danger delete-shopproduct' href='#' role='button' data-shopproduct-id='{$shopproduct_id}'>
                                                                             <i class='fas fa-trash-alt'></i>
                                                                         </a>
                                                                     </td>
                                                                 </tr>";
                                                             }
                                                         } else {
-                                                            echo "<tr><td colspan='2'>No categories found.</td></tr>";
+                                                            echo "<tr><td colspan='2'>No shopcategories found.</td></tr>";
                                                         }
                                                         // Close the database connection
                                                         // mysqli_close($conn);
@@ -423,49 +423,49 @@ include "../config/db.php";
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            // Edit Product
-            var editButtons = document.querySelectorAll('.edit-product');
+            // Edit Shopproduct
+            var editButtons = document.querySelectorAll('.edit-shopproduct');
             editButtons.forEach(function (button) {
                 button.addEventListener('click', function (event) {
                     event.preventDefault();
-                    var categoryId = button.getAttribute('data-product-id');
-                    var productname = button.getAttribute('edit-product-name');
-                    var productimage = button.getAttribute('edit-product-image');
-                    var productprice = button.getAttribute('edit-product-price');
-                    var productcategory = button.getAttribute('edit-product-category');
-                    var productdescription = button.getAttribute('edit-product-description');
+                    var shopcategoryId = button.getAttribute('data-shopproduct-id');
+                    var shopproductname = button.getAttribute('edit-shopproduct-name');
+                    var shopproductimage = button.getAttribute('edit-shopproduct-image');
+                    var shopproductprice = button.getAttribute('edit-shopproduct-price');
+                    var shopproductshopcategory = button.getAttribute('edit-shopproduct-shopcategory');
+                    var shopproductdescription = button.getAttribute('edit-shopproduct-description');
 
-                    document.getElementById('edit_product_id').value = categoryId;
-                    document.getElementById('edit-product-name').value = productname;
-                    document.getElementById('edit-product-image').setAttribute('src', 'uploads/' + productimage);
-                    // document.getElementById('edit-product-imageval').value = productimage;
-                    document.getElementById('edit-product-price').value = productprice;
-                    document.getElementById('edit-product-category').value = productcategory;
-                    document.getElementById('edit-product-description').value = productdescription;
-                    // var editProductImageVal = document.getElementById('edit-product-imageval');
-                    // if (editProductImageVal) {
-                    //     editProductImageVal.value = productimage;
+                    document.getElementById('edit_shopproduct_id').value = shopcategoryId;
+                    document.getElementById('edit-shopproduct-name').value = shopproductname;
+                    document.getElementById('edit-shopproduct-image').setAttribute('src', 'uploads/' + shopproductimage);
+                    // document.getElementById('edit-shopproduct-imageval').value = shopproductimage;
+                    document.getElementById('edit-shopproduct-price').value = shopproductprice;
+                    document.getElementById('edit-shopproduct-shopcategory').value = shopproductshopcategory;
+                    document.getElementById('edit-shopproduct-description').value = shopproductdescription;
+                    // var editShopproductImageVal = document.getElementById('edit-shopproduct-imageval');
+                    // if (editShopproductImageVal) {
+                    //     editShopproductImageVal.value = shopproductimage;
                     // }
-                    console.log(categoryId + productcategory);
+                    console.log(shopcategoryId + shopproductshopcategory);
                 });
             });
 
-            // Delete Product
-            var deleteButtons = document.querySelectorAll('.delete-product');
+            // Delete Shopproduct
+            var deleteButtons = document.querySelectorAll('.delete-shopproduct');
 
             deleteButtons.forEach(function (button) {
                 button.addEventListener('click', function (event) {
                     event.preventDefault();
-                    var categoryId = button.getAttribute('data-product-id');
-                    if (confirm("Are you sure you want to delete this category?")) {
-                        deleteCategory(categoryId);
+                    var shopcategoryId = button.getAttribute('data-shopproduct-id');
+                    if (confirm("Are you sure you want to delete this shopcategory?")) {
+                        deleteCategory(shopcategoryId);
                     }
 
                 });
             });
 
-            function deleteCategory(categoryId) {
-                // Send an AJAX request to delete-product.php with the category ID
+            function deleteCategory(shopcategoryId) {
+                // Send an AJAX request to delete-shopproduct.php with the shopcategory ID
                 var xhr = new XMLHttpRequest();
                 xhr.onreadystatechange = function () {
                     if (xhr.readyState === XMLHttpRequest.DONE) {
@@ -473,16 +473,16 @@ include "../config/db.php";
                             // If deletion is successful, reload the page
                             // location.reload();
                             $successMessage = "Successfully Deleted!";
-                            location.href = "products.php?successMessage=" + $successMessage;
+                            location.href = "shopproducts.php?successMessage=" + $successMessage;
                         } else {
                             // If there's an error, display an error message
-                            console.error('Error deleting category: ' + xhr.status);
+                            console.error('Error deleting shopcategory: ' + xhr.status);
                         }
                     }
                 };
-                xhr.open('POST', 'delete-product.php', true);
+                xhr.open('POST', 'delete-shopproduct.php', true);
                 xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-                xhr.send('category_id=' + categoryId);
+                xhr.send('shopcategory_id=' + shopcategoryId);
             }
         });
     </script>
