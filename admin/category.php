@@ -105,33 +105,9 @@ include "../config/db.php";
 
     <div class="container-fluid pb-3 flex-grow-1 d-flex flex-column flex-sm-row overflow-auto pt-4">
         <div class="row flex-grow-sm-1 flex-grow-1">
-            <aside class="col-sm-3 flex-grow-sm-1 flex-shrink-1 flex-grow-0 sticky-top pb-sm-0 pb-3">
-                <div class="bg-light border rounded-3 p-1 h-100 sticky-top">
-                    <ul class="nav nav-pills flex-sm-column flex-row mb-auto justify-content-between text-truncate">
-                        <li class="nav-item ms-5">
-                            <a href="./" class="nav-link px-2 text-truncate">
-                                <i class="bi bi-house fs-5"></i>
-                                <span class="d-none d-sm-inline text-secondary">Home</span>
-                            </a>
-                        </li>
-                        <hr />
-                        <li class="ms-5">
-                            <a href="products.php" class="nav-link px-2 text-truncate"><i class="bi bi-bricks fs-5"></i>
-                                <span class="d-none d-sm-inline text-secondary">Products</span> </a>
-                        </li>
-                        <li class="ms-5">
-                            <a href="category.php" class="nav-link px-2 text-truncate">
-                                <i class="bi bi-speedometer fs-5"></i>
-                                <span class="d-none d-sm-inline text-secondary">Catetory</span>
-                            </a>
-                        </li>
-                        <!-- <li class="ms-5">
-                            <a href="#" class="nav-link px-2 text-truncate"><i class="bi bi-people fs-5"></i>
-                                <span class="d-none d-sm-inline text-secondary">Customers</span> </a>
-                        </li> -->
-                    </ul>
-                </div>
-            </aside>
+            
+            <?php include './leftnav.php'; ?>
+
             <main class="col overflow-auto h-100">
                 <div class="bg-light border rounded-3 p-3">
                     <?php
@@ -340,7 +316,7 @@ include "../config/db.php";
         </div>
     </div>
 
-    <?php include '../components/externaljs.php'; ?>
+    <?php include '../components/adminjs.php'; ?>
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
