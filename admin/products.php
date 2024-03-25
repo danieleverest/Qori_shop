@@ -137,7 +137,7 @@ include "../config/db.php";
             </aside>
             <main class="col overflow-auto h-100">
                 <div class="bg-light border rounded-3 p-3">
-                <?php
+                    <?php
                     if (isset ($_GET['successMessage'])) {
                         $successMessage = $_GET['successMessage'];
                         echo "
@@ -206,11 +206,12 @@ include "../config/db.php";
                                                             <th scope="col">Name</th>
                                                             <th scope="col">Price</th>
                                                             <th scope="col">Category</th>
+                                                            <th scope="col">Description</th>
                                                             <th scope="col">Actions</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                    <?php
+                                                        <?php
                                                         // Fetch categories from the database
                                                         $sql = "SELECT * FROM products";
                                                         $result = mysqli_query($conn, $sql);
@@ -219,8 +220,14 @@ include "../config/db.php";
                                                             // Loop through the categories and display them
                                                             while ($row = mysqli_fetch_assoc($result)) {
                                                                 $product = $row['product_name'];
+                                                                $price = $row['price'];
+                                                                $category_id = $row['category_id'];
+                                                                $description = $row['description'];
                                                                 $product_image = $row['image'];
                                                                 $product_id = $row['id'];
+                                                                $category_query = mysqli_query($conn, "SELECT * FROM categories WHERE id = $category_id");
+                                                                $category_row = mysqli_fetch_assoc($category_query);
+                                                                $category = $category_row['category']; // Retrieve the category name from the parent category query result
                                                                 echo "
                                                                 <tr>
                                                                     
@@ -238,9 +245,19 @@ include "../config/db.php";
                                                                         </div>
                                                                     </td>
                                                                     <td>
-                                                                        <span class='badge badge-dot mr-4'>
-                                                                            <i class='bg-warning'></i> $2,500 USD
-                                                                        </span>
+                                                                    <span class='badge badge-dot mr-4'>
+                                                                    <i class='bg-warning'></i> {$price} USD
+                                                                    </span>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class='media-body'>
+                                                                            <span class='mb-0 text-sm'>$category</span>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class='media-body'>
+                                                                            <span class='mb-0 text-sm'>$description</span>
+                                                                        </div>
                                                                     </td>
                                                                     <td>
                                                                         <a class='btn btn-sm btn-icon-only text-primary edit-product' href='#' role='button' 
@@ -258,36 +275,6 @@ include "../config/db.php";
                                                             echo "<tr><td colspan='2'>No categories found.</td></tr>";
                                                         }
                                                         ?>
-                                                        <tr>
-                                                            <td>
-                                                                Phone
-                                                                <!-- <div class="d-flex align-items-center">
-                                                                    <span class="mr-2">60%</span>
-                                                                    <div>
-                                                                        <div class="progress">
-                                                                            <div class="progress-bar bg-warning"
-                                                                                role="progressbar" aria-valuenow="60"
-                                                                                aria-valuemin="0" aria-valuemax="100"
-                                                                                style="width: 60%;"></div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div> -->
-                                                            </td>
-                                                            <td>
-                                                                <a class="btn btn-sm btn-icon-only text-primary"
-                                                                    href="#" role="button">
-                                                                    <i class="fas fa-edit"></i>
-                                                                </a>
-                                                                <a class="btn btn-sm btn-icon-only text-danger" href="#"
-                                                                    role="button">
-                                                                    <i class="fas fa-trash-alt"></i>
-                                                                </a>
-                                                                <!-- <button type="button" class="btn btn-outline-primary"><i
-                                                                        class="far fa-edit"></i></button>
-                                                                <button type="button" class="btn btn-outline-danger"><i
-                                                                        class="far fa-trash-alt"></i></button> -->
-                                                            </td>
-                                                        </tr>
                                                     </tbody>
                                                 </table>
                                             </div>
