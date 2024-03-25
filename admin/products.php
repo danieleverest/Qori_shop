@@ -374,7 +374,7 @@ include "../config/db.php";
                                                             echo "<tr><td colspan='2'>No categories found.</td></tr>";
                                                         }
                                                         // Close the database connection
-                                                        mysqli_close($conn);
+                                                        // mysqli_close($conn);
                                                         ?>
                                                     </tbody>
                                                 </table>
