@@ -9,16 +9,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset ($_POST['category_id'])) {
     $getParentId_sql = "SELECT parentId FROM categories WHERE id = '$categoryId'";
     $getParentId_result = mysqli_query($conn, $getParentId_sql);
 
+    // $check_sql = "SELECT * FROM categories WHERE category = '$category'";
+    //     $check_result = mysqli_query($conn, $check_sql);
+
     if ($getParentId_result) {
         $parent_row = mysqli_fetch_assoc($getParentId_result);
         $parentId = $parent_row['parentId'];
 
-        // Perform the deletion of the category
-        $delete_sql = "DELETE FROM categories WHERE id = '$categoryId'";
-
-        // Check if the parent ID is not 0, then delete materials with that parent ID
-        if ($parentId != 0) {
-            $delete_sql .= " OR parentId = '$categoryId'";
+        if($parentId == 0) {
+            $delete_sql = "DELETE FROM categories WHERE id = '$categoryId' OR parentId = '$categoryId'";
+        } else {
+            $delete_sql = "DELETE FROM categories WHERE id = '$categoryId'";
         }
 
         $delete_result = mysqli_query($conn, $delete_sql);
