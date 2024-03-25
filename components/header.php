@@ -34,19 +34,6 @@
                     <li class="nav-item">
                         <a class="nav-link" href="contact.php">Negocios</a>
                     </li>
-                    <li class="nav-item">
-                        <!-- <a class="nav-link" href="admin/register.php">Admin</a> -->
-                        <?php
-                        // Check if the user is logged out (not authenticated)
-                        if (!isset ($_SESSION['user_id'])) {
-                            // If logged out, go to admin/register.php
-                            echo '<a class="nav-link" href="admin/login.php">Admin</a>';
-                        } else {
-                            // If logged in, go to admin/admin.php
-                            echo '<a class="nav-link" href="admin/admin.php">Admin</a>';
-                        }
-                        ?>
-                    </li>
                 </ul>
             </div>
             <div class="navbar align-self-center d-flex">

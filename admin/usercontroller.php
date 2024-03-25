@@ -44,6 +44,7 @@ if (isset ($_POST['login'])) {
         $fetch_pass = $fetch['password'];
         if (password_verify($password, $fetch_pass)) {
             $_SESSION['email'] = $email;
+            $_SESSION['info'] = 'Login Successfully!';
             // $status = $fetch['status'];
             $_SESSION['password'] = $password;
             $_SESSION['user_id'] = $user_id;

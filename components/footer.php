@@ -37,6 +37,18 @@
                     <li><a class="text-decoration-none" href="#">Nosotros</a></li>
                     <li><a class="text-decoration-none" href="#">Pedidos</a></li>
                     <li><a class="text-decoration-none" href="#">Contacto</a></li>
+                    <li>
+                        <?php
+                        // Check if the user is logged out (not authenticated)
+                        if (!isset ($_SESSION['user_id'])) {
+                            // If logged out, go to admin/register.php
+                            echo '<a class="text-decoration-none" href="admin/login.php">Admin</a>';
+                        } else {
+                            // If logged in, go to admin/admin.php
+                            echo '<a class="text-decoration-none" href="admin/admin.php">Admin</a>';
+                        }
+                        ?>
+                    </li>
                 </ul>
             </div>
 
