@@ -3,11 +3,11 @@
 include "../config/db.php";
 $successMessage = "";
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset ($_POST['category_id'])) {
-    $categoryId = mysqli_real_escape_string($conn, $_POST['category_id']);
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset ($_POST['techcategory_id'])) {
+    $categoryId = mysqli_real_escape_string($conn, $_POST['techcategory_id']);
 
     // Perform the deletion of the category
-    $delete_sql = "DELETE FROM products WHERE id = '$categoryId'";
+    $delete_sql = "DELETE FROM techproducts WHERE id = '$categoryId'";
     $delete_result = mysqli_query($conn, $delete_sql);
 
     if ($delete_result) {
